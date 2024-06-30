@@ -16,13 +16,14 @@ st.markdown(
         src: url('https://fonts.googleapis.com/css2?family=Times+New+Roman&display=swap');
     }
 
-    /* Apply the font-family to the Streamlit body */
-    * {
+    /* Apply the font-family to the Streamlit body and all headers */
+    body, h1, h2, h3, h4, h5, h6, p, div, span, td, th {
         font-family: 'Times New Roman', serif;
     }
     </style>
     """,
-    unsafe_allow_html=True)
+    unsafe_allow_html=True
+)
 
 
 # Sidebar Navigation
@@ -2318,7 +2319,7 @@ elif navigation == "Course Eligibility and Recommendation System":
 
     selected_major = st.multiselect("Select Major:", majors)
 
-    st.header("Step 3: Load Student Data")
+    st.header("Step 2: Load Student Data")
     st.info("Please download the sample student data to understand the required format.")
     sample_data = create_sample_data()
     st.download_button(
