@@ -2324,14 +2324,14 @@ elif navigation == "Course Eligibility and Recommendation System":
     st.info("Please download the sample student data to understand the required format.")
     sample_data = create_sample_data()
     st.download_button(
-    label="Download Sample Data",
-    data=sample_data.to_csv(index=False),
-    file_name='sample_student_data.csv',
-     mime='text/csv',
+        label="Download Sample Data",
+        data=sample_data.to_csv(index=False),
+        file_name='sample_student_data.csv',
+        mime='text/csv',
     )
     student_file = st.file_uploader("Upload the Student Data (CSV)", type=["csv"])
-    
-    if student_file:
+
+    if student_file and selected_college != "Please Select The Required College!" and selected_major:
         # Reading student data
         try:
             data = pd.read_csv(student_file)
@@ -2344,92 +2344,91 @@ elif navigation == "Course Eligibility and Recommendation System":
                 "CAS": ["Computer Science", "Digital Media Production", "Eng- Linguistics - Translation", "English Education", "English Literature", "Public relations & Advertising", "Visual Communication"],
                 "CEA": ["Electrical Engineering", "Computer Engineering", "Engineering Management"]
             }
-            
+
             valid_majors = college_major_map[selected_college]
             invalid_majors = [major for major in majors_in_data if major not in valid_majors]
-            
+
             if invalid_majors:
                 st.error(f"The data contains majors that do not match the selected college: {invalid_majors}")
             else:
                 # Check if selected majors are in the data
                 missing_majors = [major for major in selected_major if major not in majors_in_data]
-                
+
                 if missing_majors:
                     st.error(f"The selected majors are not present in the loaded data: {missing_majors}")
                 else:
-                    unique_majors = selected_major
+                    section = st.selectbox("Select Data to Display", ["None", "Eligible Courses", "Recommended Courses", "Combined Data"])
 
-                    combined_df_list = []
-                    combined_list_list = []
-                    recommended_courses_list = []
+                    if section != "None":
+                        combined_df_list = []
+                        combined_list_list = []
+                        recommended_courses_list = []
 
-                    for major in unique_majors:
-                        st.write(f"Processing data for major: {major}")
-                        major_data_subset = data[data['Major'] == major]
+                        for major in selected_major:
+                            st.write(f"Processing data for major: {major}")
+                            major_data_subset = data[data['Major'] == major]
 
-                        process_function = major_processing_functions.get(major)
-                        
-                        if process_function:
-                            with st.spinner(f"Processing data for major: {major}..."):
-                                combined_df, combined_list, recommended_courses = process_function(major_data_subset, major_data_subset, major_data)
-                            
-                            combined_df_list.append(combined_df)
-                            combined_list_list.append(combined_list)
-                            recommended_courses_list.append(recommended_courses)
-                        else:
-                            st.error(f"No processing function found for major: {major}")
+                            process_function = major_processing_functions.get(major)
 
-                    # Combine the processed dataframes for all majors
-                    if combined_df_list:
-                        combined_df = pd.concat(combined_df_list, ignore_index=True)
-                        combined_list = pd.concat(combined_list_list, ignore_index=True)
-                        recommended_courses = pd.concat(recommended_courses_list, ignore_index=True)
-                        
-                        st.success("Data processed successfully for all majors!")
-                        
-                        section = st.selectbox("Select Data to Display", ["None", "Eligible Courses", "Recommended Courses", "Combined Data"])
+                            if process_function:
+                                with st.spinner(f"Processing data for major: {major}..."):
+                                    combined_df, combined_list, recommended_courses = process_function(major_data_subset, major_data_subset, major_data)
 
-                        if section == "None":
-                            st.warning("Please Choose the required Data!")
-                        elif section == "Eligible Courses":
-                            st.header("Eligible Courses Data")
-                            st.dataframe(combined_list)
-                            
-                            # Download the DataFrame as CSV
-                            st.header("Download Combined List Data")
-                            csv = combined_list.to_csv(index=False)
-                            st.download_button(
-                                label="Download combined list data as CSV",
-                                data=csv,
-                                file_name='combined_list.csv',
-                                mime='text/csv',
-                            )
-                        elif section == "Recommended Courses":
-                            st.header("Recommended Courses Data")
-                            st.dataframe(recommended_courses)
-                            
-                            # Download the DataFrame as CSV
-                            st.header("Download Recommended Courses Data")
-                            csv = recommended_courses.to_csv(index=False)
-                            st.download_button(
-                                label="Download recommended courses data as CSV",
-                                data=csv,
-                                file_name='recommended_courses.csv',
-                                mime='text/csv',
-                            )
-                        elif section == "Combined Data":
-                            st.header("Combined Data")
-                            st.dataframe(combined_df)
-                            
-                            # Download the DataFrame as CSV
-                            st.header("Download Combined Data")
-                            csv = combined_df.to_csv(index=False)
-                            st.download_button(
-                                label="Download data as CSV",
-                                data=csv,
-                                file_name='combined_df.csv',
-                                mime='text/csv',
-                            )
+                                combined_df_list.append(combined_df)
+                                combined_list_list.append(combined_list)
+                                recommended_courses_list.append(recommended_courses)
+                            else:
+                                st.error(f"No processing function found for major: {major}")
+
+                        # Combine the processed dataframes for all majors
+                        if combined_df_list:
+                            combined_df = pd.concat(combined_df_list, ignore_index=True)
+                            combined_list = pd.concat(combined_list_list, ignore_index=True)
+                            recommended_courses = pd.concat(recommended_courses_list, ignore_index=True)
+
+                            st.success("Data processed successfully for all majors!")
+
+                            if section == "Eligible Courses":
+                                st.header("Eligible Courses Data")
+                                st.dataframe(combined_list)
+
+                                # Download the DataFrame as CSV
+                                st.header("Download Combined List Data")
+                                csv = combined_list.to_csv(index=False)
+                                st.download_button(
+                                    label="Download combined list data as CSV",
+                                    data=csv,
+                                    file_name='combined_list.csv',
+                                    mime='text/csv',
+                                )
+                            elif section == "Recommended Courses":
+                                st.header("Recommended Courses Data")
+                                st.dataframe(recommended_courses)
+
+                                # Download the DataFrame as CSV
+                                st.header("Download Recommended Courses Data")
+                                csv = recommended_courses.to_csv(index=False)
+                                st.download_button(
+                                    label="Download recommended courses data as CSV",
+                                    data=csv,
+                                    file_name='recommended_courses.csv',
+                                    mime='text/csv',
+                                )
+                            elif section == "Combined Data":
+                                st.header("Combined Data")
+                                st.dataframe(combined_df)
+
+                                # Download the DataFrame as CSV
+                                st.header("Download Combined Data")
+                                csv = combined_df.to_csv(index=False)
+                                st.download_button(
+                                    label="Download data as CSV",
+                                    data=csv,
+                                    file_name='combined_df.csv',
+                                    mime='text/csv',
+                                )
+                    else:
+                        st.warning("Please Choose the required Data!")
         except Exception as e:
             st.error(f"Error loading student data: {e}")
 
