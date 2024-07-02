@@ -2276,11 +2276,11 @@ if navigation == "User Guide":
             1. **Select Major**: Choose the student's major from the dropdown.
             2. **Download Sample Data**: Download sample student data to understand the format.
             3. **Upload Student Data**: Upload the student data in CSV format.
-            4. **Process Data**: Wait for the data processing to complete.
-            5. **View and Download Data**: Select which Data to view and download the data if needed.
+            4. **View and Download Data**: Select which Data to view and download the data if needed.
                 - Eligible Courses
                 - Recommended Courses
                 - Combined Data
+            5. **Process Data**: Wait for the data processing to complete.
             """)
         
     elif guide_option == "Quick Check":
