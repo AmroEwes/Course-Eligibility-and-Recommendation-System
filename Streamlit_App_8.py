@@ -396,7 +396,73 @@ def is_eligible_special_vc(course, taken_courses, student_info,prerequisites,con
         return student_info['Student_Level'] == 3 and all(prereq in taken_courses for prereq in prereqs) and student_info['Program'] == "Mass Communication"
     else:
         return False
+
+def is_eligible_special_mgmt(course, taken_courses, student_info,prerequisites,conditions):
+    prereqs = prerequisites.get(course, [])
+    condition = conditions.get(course, "")
     
+    if condition == "OR":
+        return any(prereq in taken_courses for prereq in prereqs)
+    elif condition == "AND":
+        return all(prereq in taken_courses for prereq in prereqs)
+    elif condition == "AND_College":
+        return all(prereq in taken_courses for prereq in prereqs) and student_info['College'] == "COE"
+    elif condition == "AND_College_OR":
+        return all(prereq in taken_courses for prereq in prereqs) and (student_info['Major'] == "Computer Science" or student_info['College'] == "COE")
+    elif condition == "AND_OR_2":
+        return all(prereq in taken_courses for prereq in prereqs[:2]) and any(prereq in taken_courses for prereq in prereqs[3:])
+    else:
+        return False
+
+def is_eligible_special_elec(course, taken_courses, student_info,prerequisites,conditions):
+    prereqs = prerequisites.get(course, [])
+    condition = conditions.get(course, "")
+    
+    if condition == "OR":
+        return any(prereq in taken_courses for prereq in prereqs)
+    elif condition == "AND":
+        return all(prereq in taken_courses for prereq in prereqs)
+    elif condition == "AND_College":
+        return all(prereq in taken_courses for prereq in prereqs) and student_info['College'] == "COE"
+    elif condition == "OR_AND_College_OR":
+        return any(prereq in taken_courses for prereq in prereqs) and (student_info['Major'] == "Computer Science" or student_info['College'] == "COE")
+    elif condition == "AND_College_OR":
+        return all(prereq in taken_courses for prereq in prereqs) and (student_info['Major'] == "Computer Science" or student_info['College'] == "COE")
+    elif condition == "AND_Senior":
+        return student_info['Student_Level'] == 4 and all(prereq in taken_courses for prereq in prereqs)
+    elif condition == "AND_OR_2":
+        return all(prereq in taken_courses for prereq in prereqs[:2]) and any(prereq in taken_courses for prereq in prereqs[3:])
+    elif condition == "AND_3_Courses":
+        return all(prereq in taken_courses for prereq in prereqs[:3]) and sum(prereq in taken_courses for prereq in prereqs[3:]) >= 3
+    else:
+        return False
+
+def is_eligible_special_comp(course, taken_courses, student_info,prerequisites,conditions):
+    prereqs = prerequisites.get(course, [])
+    condition = conditions.get(course, "")
+    
+    if condition == "OR":
+        return any(prereq in taken_courses for prereq in prereqs)
+    elif condition == "AND":
+        return all(prereq in taken_courses for prereq in prereqs)
+    elif condition == "AND_College":
+        return all(prereq in taken_courses for prereq in prereqs) and student_info['College'] == "COE"
+    elif condition == "OR_AND_College_OR":
+        return any(prereq in taken_courses for prereq in prereqs) and (student_info['Major'] == "Computer Science" or student_info['College'] == "COE")
+    elif condition == "AND_OR":
+        return prereqs and prereqs[0] in taken_courses and any(prereq in taken_courses for prereq in prereqs[1:])
+    elif condition == "Junior_ECOM":
+        return student_info['Student_Level'] == 3 and student_info['Program'] == "Computer Engineering"
+    elif condition == "Senior_ECOM":
+        return student_info['Student_Level'] == 4 and student_info['Program'] == "Computer Engineering"
+    elif condition == "AND_OR_2":
+        return all(prereq in taken_courses for prereq in prereqs[:2]) and any(prereq in taken_courses for prereq in prereqs[3:])
+    elif condition == "AND_OR_3":
+        return any(prereq in taken_courses for prereq in prereqs[:2]) and all(prereq in taken_courses for prereq in prereqs[3:])
+    elif condition == "AND_College_OR":
+        return all(prereq in taken_courses for prereq in prereqs) and (student_info['Major'] == "Computer Science" or student_info['College'] == "COE")
+    else:
+        return False    
 
 # Helper Functions from provided logic
 def combine_eligible_courses(df1, df2):
@@ -739,6 +805,69 @@ def is_eligible_special_vc_(course, taken_courses, student_info,prerequisites,co
         return any(prereq in taken_courses for prereq in prereqs) and (student_info['Program'] == "Mass Communication" or student_info['Program'] == "English")
     elif condition == "AND_Junior_Program":
         return student_info['Student_Level'] == 3 and all(prereq in taken_courses for prereq in prereqs) and student_info['Program'] == "Mass Communication"
+    else:
+        return False
+    
+def is_eligible_special_mgmt_(course, taken_courses, student_info,prerequisites,conditions):
+    prereqs = prerequisites.get(course, [])
+    condition = conditions.get(course, "")
+    
+    if condition == "OR":
+        return any(prereq in taken_courses for prereq in prereqs)
+    elif condition == "AND":
+        return all(prereq in taken_courses for prereq in prereqs)
+    elif condition == "AND_College":
+        return all(prereq in taken_courses for prereq in prereqs) and student_info['College'] == "COE"
+    elif condition == "AND_College_OR":
+        return all(prereq in taken_courses for prereq in prereqs) and (student_info['Major'] == "Computer Science" or student_info['College'] == "COE")
+    elif condition == "AND_OR_2":
+        return all(prereq in taken_courses for prereq in prereqs[:2]) and any(prereq in taken_courses for prereq in prereqs[3:])
+    else:
+        return False
+    
+def is_eligible_special_elec_(course, taken_courses, student_info,prerequisites,conditions):
+    prereqs = prerequisites.get(course, [])
+    condition = conditions.get(course, "")
+    
+    if condition == "OR":
+        return any(prereq in taken_courses for prereq in prereqs)
+    elif condition == "AND":
+        return all(prereq in taken_courses for prereq in prereqs)
+    elif condition == "AND_College":
+        return all(prereq in taken_courses for prereq in prereqs) and student_info['College'] == "COE"
+    elif condition == "OR_AND_College_OR":
+        return any(prereq in taken_courses for prereq in prereqs) and (student_info['Major'] == "Computer Science" or student_info['College'] == "COE")
+    elif condition == "AND_College_OR":
+        return all(prereq in taken_courses for prereq in prereqs) and (student_info['Major'] == "Computer Science" or student_info['College'] == "COE")
+    elif condition == "AND_Senior":
+        return student_info['Student_Level'] == 4 and all(prereq in taken_courses for prereq in prereqs)
+    elif condition == "AND_OR_2":
+        return all(prereq in taken_courses for prereq in prereqs[:2]) and any(prereq in taken_courses for prereq in prereqs[3:])
+    elif condition == "AND_3_Courses":
+        return all(prereq in taken_courses for prereq in prereqs[:3]) and sum(prereq in taken_courses for prereq in prereqs[3:]) >= 3
+    else:
+        return False
+    
+def is_eligible_special_comp_(course, taken_courses, student_info,prerequisites,conditions):
+    prereqs = prerequisites.get(course, [])
+    condition = conditions.get(course, "")
+    
+    if condition == "OR":
+        return any(prereq in taken_courses for prereq in prereqs)
+    elif condition == "AND":
+        return all(prereq in taken_courses for prereq in prereqs)
+    elif condition == "AND_College":
+        return all(prereq in taken_courses for prereq in prereqs) and student_info['College'] == "COE"
+    elif condition == "OR_AND_College_OR":
+        return any(prereq in taken_courses for prereq in prereqs) and (student_info['Major'] == "Computer Science" or student_info['College'] == "COE")
+    elif condition == "AND_OR":
+        return prereqs and prereqs[0] in taken_courses and any(prereq in taken_courses for prereq in prereqs[1:])
+    elif condition == "AND_OR_2":
+        return all(prereq in taken_courses for prereq in prereqs[:2]) and any(prereq in taken_courses for prereq in prereqs[3:])
+    elif condition == "AND_OR_3":
+        return any(prereq in taken_courses for prereq in prereqs[:2]) and all(prereq in taken_courses for prereq in prereqs[3:])
+    elif condition == "AND_College_OR":
+        return all(prereq in taken_courses for prereq in prereqs) and (student_info['Major'] == "Computer Science" or student_info['College'] == "COE")
     else:
         return False
 
@@ -2242,6 +2371,366 @@ def process_data_vc(cas_data, vc_data, major_data):
 
     return combined_df_vc,combined_vc_list,recommended_courses_vc
 
+def process_data_mgmt(cea_data, mgmt_data, major_data):
+    # Filtering and Sorting Data
+    mgmt_data = cea_data[cea_data['Major'] == 'Engineering Management']
+    mgmt_data = mgmt_data.sort_values(by=['Student_ID', 'Semester'])
+    
+    # Extracting specific sheets and filtering based on 'COMSCIENCE'
+    cea_list = major_data["CEA_list"]
+    mgmt_list = cea_list[cea_list["Major"] == "MGMTENG"]
+
+    cea_special_cases = major_data["CEA_Special_Cases"]
+    mgmt_special_cases = cea_special_cases[cea_special_cases["Major"] == "MGMTENG"]
+
+    cea_co = major_data["CEA_CO"]
+    mgmt_co = cea_co[cea_co["Major"] == "MGMTENG"]
+
+    # Process 'REQUISITES_LIST'
+    mgmt_co = mgmt_co.copy()
+    mgmt_co.loc[:, 'REQUISITES_LIST'] = mgmt_co['REQUISITES_LIST'].apply(ast.literal_eval)
+
+    # Combining DataFrames
+    courses_mgmt = pd.concat([mgmt_list[["Course_ID","AREA_OF_STUDY","COURSE_OF_STUDY"]],
+                           mgmt_special_cases[["Course_ID","AREA_OF_STUDY","COURSE_OF_STUDY"]],
+                           mgmt_co[["Course_ID","AREA_OF_STUDY","COURSE_OF_STUDY"]]],
+                          axis=0, ignore_index=True)
+    courses_mgmt = courses_mgmt.drop_duplicates()
+
+    # Grouping data by Student_ID and Semester
+    grouped_data_mgmt = mgmt_data.groupby(['Student_ID', 'Semester'])['Course_ID'].apply(list).reset_index()
+
+    # Creating Prerequisites Dictionary
+    prerequisites_mgmt = mgmt_list.set_index('Course_ID')['REQUISITES_LIST'].apply(ast.literal_eval).to_dict()
+    prerequisites_special_mgmt = mgmt_special_cases.set_index('Course_ID')['REQUISITES_LIST'].apply(ast.literal_eval).to_dict()
+    conditions_mgmt = mgmt_special_cases.set_index('Course_ID')['Condition'].to_dict()
+
+    # Processing for Standard Eligibility
+    final_results_mgmt = []
+
+    for student_id, group in mgmt_data.groupby('Student_ID'):
+        cumulative_courses = set()
+        for semester, semester_group in group.groupby('Semester'):
+            taken_courses = set(semester_group['Course_ID'].tolist())
+            
+            cumulative_courses.update(taken_courses)
+            
+            eligible_courses = {course for course in prerequisites_mgmt.keys() if is_eligible(course, cumulative_courses, prerequisites_mgmt) and course not in cumulative_courses}
+            
+            not_taken_courses = [course for course in eligible_courses if course not in taken_courses]
+            
+            final_results_mgmt.append({
+                'Student_ID': student_id,
+                'Semester': semester,
+                'Major': semester_group['Major'].iloc[0],
+                'College': semester_group['College'].iloc[0],
+                'Program': semester_group['Program'].iloc[0],
+                'Passed Credits': semester_group['Passed Credits'].iloc[0],
+                'Student_Level': semester_group['Student_Level'].iloc[0],
+                'Eligible_Courses': not_taken_courses
+            })
+
+    final_results_df_mgmt = pd.DataFrame(final_results_mgmt)
+
+    # Processing for Special Eligibility
+    final_results_special_mgmt = []
+
+    for student_id, group in mgmt_data.groupby('Student_ID'):
+        cumulative_courses = set()
+        for semester, semester_group in group.groupby('Semester'):
+            student_info = semester_group.iloc[0]
+            taken_courses = set(semester_group['Course_ID'].tolist())
+            
+            cumulative_courses.update(taken_courses)
+            
+            eligible_courses = {course for course in prerequisites_special_mgmt.keys() if is_eligible_special_mgmt(course, cumulative_courses, student_info,prerequisites_special_mgmt,conditions_mgmt) and course not in cumulative_courses}
+            
+            not_taken_courses = [course for course in eligible_courses if course not in taken_courses]
+            
+            final_results_special_mgmt.append({
+                'Student_ID': student_id,
+                'Semester': semester,
+                'Major': student_info['Major'],
+                'College': student_info['College'],
+                'Program': student_info['Program'],
+                'Passed Credits': student_info['Passed Credits'],
+                'Student_Level': student_info['Student_Level'],
+                'Eligible_Courses': not_taken_courses
+            })
+
+    final_results_special_df_mgmt = pd.DataFrame(final_results_special_mgmt)
+
+    # Combine Eligible Courses from Both DataFrames
+    combined_mgmt_list = combine_eligible_courses(final_results_df_mgmt, final_results_special_df_mgmt)
+
+    # Find Course Combinations for Co-requisites
+    combined_mgmt_list = combined_mgmt_list.apply(create_combined_courses, axis=1, co=mgmt_co)
+
+    # Exploding and Mapping Course Details
+    combined_df_mgmt = combined_mgmt_list.explode("Eligible_Courses_CO")
+    #combined_df_mgmt = combined_df_mgmt.dropna(subset=["Eligible_Courses_CO"])
+    combined_df_mgmt["AREA_OF_STUDY"] = combined_df_mgmt['Eligible_Courses_CO'].map(courses_mgmt.set_index('Course_ID')['AREA_OF_STUDY'])
+    combined_df_mgmt["COURSE_OF_STUDY"] = combined_df_mgmt['Eligible_Courses_CO'].map(courses_mgmt.set_index('Course_ID')['COURSE_OF_STUDY'])
+    combined_df_mgmt['Eligible_Courses_CO'] = combined_df_mgmt['Eligible_Courses_CO'].apply(lambda x: x if isinstance(x, list) else ([] if pd.isna(x) else [x]))
+
+    # Find Additional Eligibilities
+    combined_df_mgmt['Future_Eligible_Courses_List'] = combined_df_mgmt.apply(lambda row: find_additional_eligibilities(row['Eligible_Courses_CO'], set(row['Eligible_Courses_CO']), prerequisites_mgmt), axis=1)
+    combined_df_mgmt['Total_Future_Eligible_Courses'] = combined_df_mgmt['Future_Eligible_Courses_List'].apply(len)
+
+    # Special Additional Eligibilities
+    combined_df_mgmt['Future_Eligible_Courses_List_Special'] = combined_df_mgmt.apply(lambda row: find_additional_eligibilities_special(row['Eligible_Courses_CO'], set(row['Eligible_Courses_CO']), row, prerequisites_special_mgmt, conditions_mgmt, is_eligible_special_mgmt_), axis=1)
+    combined_df_mgmt['Total_Future_Eligible_Courses_Special'] = combined_df_mgmt['Future_Eligible_Courses_List_Special'].apply(len)
+
+    # Combine Future Eligible Courses
+    combined_df_mgmt["Future_Eligible_Courses"] = combined_df_mgmt["Future_Eligible_Courses_List"] + combined_df_mgmt["Future_Eligible_Courses_List_Special"]
+    combined_df_mgmt['Course_Score'] = combined_df_mgmt['Future_Eligible_Courses'].apply(len)
+
+    # Find Best Courses
+    recommended_courses_mgmt = combined_df_mgmt.groupby(['Student_ID', 'Semester']).apply(lambda group: pd.Series({'Recommended_Courses': find_best_courses(group)})).reset_index()
+    combined_df_mgmt = combined_df_mgmt.merge(recommended_courses_mgmt, on=['Student_ID', 'Semester'])
+
+    return combined_df_mgmt,combined_mgmt_list,recommended_courses_mgmt
+
+def process_data_elec(cea_data, elec_data, major_data):
+    # Filtering and Sorting Data
+    elec_data = cea_data[cea_data['Major'] == 'Electrical Engineering']
+    elec_data = elec_data.sort_values(by=['Student_ID', 'Semester'])
+    
+    # Extracting specific sheets and filtering based on 'COMSCIENCE'
+    cea_list = major_data["CEA_list"]
+    elec_list = cea_list[cea_list["Major"] == "ELECENG"]
+
+    cea_special_cases = major_data["CEA_Special_Cases"]
+    elec_special_cases = cea_special_cases[cea_special_cases["Major"] == "ELECENG"]
+
+    cea_co = major_data["CEA_CO"]
+    elec_co = cea_co[cea_co["Major"] == "ELECENG"]
+
+    # Process 'REQUISITES_LIST'
+    elec_co = elec_co.copy()
+    elec_co.loc[:, 'REQUISITES_LIST'] = elec_co['REQUISITES_LIST'].apply(ast.literal_eval)
+
+    # Combining DataFrames
+    courses_elec = pd.concat([elec_list[["Course_ID","AREA_OF_STUDY","COURSE_OF_STUDY"]],
+                           cea_special_cases[["Course_ID","AREA_OF_STUDY","COURSE_OF_STUDY"]],
+                           elec_co[["Course_ID","AREA_OF_STUDY","COURSE_OF_STUDY"]]],
+                          axis=0, ignore_index=True)
+    courses_elec = courses_elec.drop_duplicates()
+
+    # Grouping data by Student_ID and Semester
+    grouped_data_elec = elec_data.groupby(['Student_ID', 'Semester'])['Course_ID'].apply(list).reset_index()
+
+    # Creating Prerequisites Dictionary
+    prerequisites_elec = elec_list.set_index('Course_ID')['REQUISITES_LIST'].apply(ast.literal_eval).to_dict()
+    prerequisites_special_elec = cea_special_cases.set_index('Course_ID')['REQUISITES_LIST'].apply(ast.literal_eval).to_dict()
+    conditions_elec = cea_special_cases.set_index('Course_ID')['Condition'].to_dict()
+
+    # Processing for Standard Eligibility
+    final_results_elec = []
+
+    for student_id, group in elec_data.groupby('Student_ID'):
+        cumulative_courses = set()
+        for semester, semester_group in group.groupby('Semester'):
+            taken_courses = set(semester_group['Course_ID'].tolist())
+            
+            cumulative_courses.update(taken_courses)
+            
+            eligible_courses = {course for course in prerequisites_elec.keys() if is_eligible(course, cumulative_courses, prerequisites_elec) and course not in cumulative_courses}
+            
+            not_taken_courses = [course for course in eligible_courses if course not in taken_courses]
+            
+            final_results_elec.append({
+                'Student_ID': student_id,
+                'Semester': semester,
+                'Major': semester_group['Major'].iloc[0],
+                'College': semester_group['College'].iloc[0],
+                'Program': semester_group['Program'].iloc[0],
+                'Passed Credits': semester_group['Passed Credits'].iloc[0],
+                'Student_Level': semester_group['Student_Level'].iloc[0],
+                'Eligible_Courses': not_taken_courses
+            })
+
+    final_results_df_elec = pd.DataFrame(final_results_elec)
+
+    # Processing for Special Eligibility
+    final_results_special_elec = []
+
+    for student_id, group in elec_data.groupby('Student_ID'):
+        cumulative_courses = set()
+        for semester, semester_group in group.groupby('Semester'):
+            student_info = semester_group.iloc[0]
+            taken_courses = set(semester_group['Course_ID'].tolist())
+            
+            cumulative_courses.update(taken_courses)
+            
+            eligible_courses = {course for course in prerequisites_special_elec.keys() if is_eligible_special_elec(course, cumulative_courses, student_info,prerequisites_special_elec,conditions_elec) and course not in cumulative_courses}
+            
+            not_taken_courses = [course for course in eligible_courses if course not in taken_courses]
+            
+            final_results_special_elec.append({
+                'Student_ID': student_id,
+                'Semester': semester,
+                'Major': student_info['Major'],
+                'College': student_info['College'],
+                'Program': student_info['Program'],
+                'Passed Credits': student_info['Passed Credits'],
+                'Student_Level': student_info['Student_Level'],
+                'Eligible_Courses': not_taken_courses
+            })
+
+    final_results_special_df_elec = pd.DataFrame(final_results_special_elec)
+
+    # Combine Eligible Courses from Both DataFrames
+    combined_elec_list = combine_eligible_courses(final_results_df_elec, final_results_special_df_elec)
+
+    # Find Course Combinations for Co-requisites
+    combined_elec_list = combined_elec_list.apply(create_combined_courses, axis=1, co=elec_co)
+
+    # Exploding and Mapping Course Details
+    combined_df_elec = combined_elec_list.explode("Eligible_Courses_CO")
+    #combined_df_elec = combined_df_elec.dropna(subset=["Eligible_Courses_CO"])
+    combined_df_elec["AREA_OF_STUDY"] = combined_df_elec['Eligible_Courses_CO'].map(courses_elec.set_index('Course_ID')['AREA_OF_STUDY'])
+    combined_df_elec["COURSE_OF_STUDY"] = combined_df_elec['Eligible_Courses_CO'].map(courses_elec.set_index('Course_ID')['COURSE_OF_STUDY'])
+    combined_df_elec['Eligible_Courses_CO'] = combined_df_elec['Eligible_Courses_CO'].apply(lambda x: x if isinstance(x, list) else ([] if pd.isna(x) else [x]))
+
+    # Find Additional Eligibilities
+    combined_df_elec['Future_Eligible_Courses_List'] = combined_df_elec.apply(lambda row: find_additional_eligibilities(row['Eligible_Courses_CO'], set(row['Eligible_Courses_CO']), prerequisites_elec), axis=1)
+    combined_df_elec['Total_Future_Eligible_Courses'] = combined_df_elec['Future_Eligible_Courses_List'].apply(len)
+
+    # Special Additional Eligibilities
+    combined_df_elec['Future_Eligible_Courses_List_Special'] = combined_df_elec.apply(lambda row: find_additional_eligibilities_special(row['Eligible_Courses_CO'], set(row['Eligible_Courses_CO']), row, prerequisites_special_elec, conditions_elec, is_eligible_special_elec_), axis=1)
+    combined_df_elec['Total_Future_Eligible_Courses_Special'] = combined_df_elec['Future_Eligible_Courses_List_Special'].apply(len)
+
+    # Combine Future Eligible Courses
+    combined_df_elec["Future_Eligible_Courses"] = combined_df_elec["Future_Eligible_Courses_List"] + combined_df_elec["Future_Eligible_Courses_List_Special"]
+    combined_df_elec['Course_Score'] = combined_df_elec['Future_Eligible_Courses'].apply(len)
+
+    # Find Best Courses
+    recommended_courses_elec = combined_df_elec.groupby(['Student_ID', 'Semester']).apply(lambda group: pd.Series({'Recommended_Courses': find_best_courses(group)})).reset_index()
+    combined_df_elec = combined_df_elec.merge(recommended_courses_elec, on=['Student_ID', 'Semester'])
+
+    return combined_df_elec,combined_elec_list,recommended_courses_elec
+
+def process_data_comp(cea_data, comp_data, major_data):
+    # Filtering and Sorting Data
+    comp_data = cea_data[cea_data['Major'] == 'Computer Engineering']
+    comp_data = comp_data.sort_values(by=['Student_ID', 'Semester'])
+    
+    # Extracting specific sheets and filtering based on 'COMSCIENCE'
+    cea_list = major_data["CEA_list"]
+    comp_list = cea_list[cea_list["Major"] == "COMPENG"]
+
+    cea_special_cases = major_data["CEA_Special_Cases"]
+    comp_special_cases = cea_special_cases[cea_special_cases["Major"] == "COMPENG"]
+
+    cea_co = major_data["CEA_CO"]
+    comp_co = cea_co[cea_co["Major"] == "COMPENG"]
+
+    # Process 'REQUISITES_LIST'
+    comp_co = comp_co.copy()
+    comp_co.loc[:, 'REQUISITES_LIST'] = comp_co['REQUISITES_LIST'].apply(ast.literal_eval)
+
+    # Combining DataFrames
+    courses_comp = pd.concat([comp_list[["Course_ID","AREA_OF_STUDY","COURSE_OF_STUDY"]],
+                           comp_special_cases[["Course_ID","AREA_OF_STUDY","COURSE_OF_STUDY"]],
+                           comp_co[["Course_ID","AREA_OF_STUDY","COURSE_OF_STUDY"]]],
+                          axis=0, ignore_index=True)
+    courses_comp = courses_comp.drop_duplicates()
+
+    # Grouping data by Student_ID and Semester
+    grouped_data_comp = comp_data.groupby(['Student_ID', 'Semester'])['Course_ID'].apply(list).reset_index()
+
+    # Creating Prerequisites Dictionary
+    prerequisites_comp = comp_list.set_index('Course_ID')['REQUISITES_LIST'].apply(ast.literal_eval).to_dict()
+    prerequisites_special_comp = comp_special_cases.set_index('Course_ID')['REQUISITES_LIST'].apply(ast.literal_eval).to_dict()
+    conditions_comp = comp_special_cases.set_index('Course_ID')['Condition'].to_dict()
+
+    # Processing for Standard Eligibility
+    final_results_comp = []
+
+    for student_id, group in comp_data.groupby('Student_ID'):
+        cumulative_courses = set()
+        for semester, semester_group in group.groupby('Semester'):
+            taken_courses = set(semester_group['Course_ID'].tolist())
+            
+            cumulative_courses.update(taken_courses)
+            
+            eligible_courses = {course for course in prerequisites_comp.keys() if is_eligible(course, cumulative_courses, prerequisites_comp) and course not in cumulative_courses}
+            
+            not_taken_courses = [course for course in eligible_courses if course not in taken_courses]
+            
+            final_results_comp.append({
+                'Student_ID': student_id,
+                'Semester': semester,
+                'Major': semester_group['Major'].iloc[0],
+                'College': semester_group['College'].iloc[0],
+                'Program': semester_group['Program'].iloc[0],
+                'Passed Credits': semester_group['Passed Credits'].iloc[0],
+                'Student_Level': semester_group['Student_Level'].iloc[0],
+                'Eligible_Courses': not_taken_courses
+            })
+
+    final_results_df_comp = pd.DataFrame(final_results_comp)
+
+    # Processing for Special Eligibility
+    final_results_special_comp = []
+
+    for student_id, group in comp_data.groupby('Student_ID'):
+        cumulative_courses = set()
+        for semester, semester_group in group.groupby('Semester'):
+            student_info = semester_group.iloc[0]
+            taken_courses = set(semester_group['Course_ID'].tolist())
+            
+            cumulative_courses.update(taken_courses)
+            
+            eligible_courses = {course for course in prerequisites_special_comp.keys() if is_eligible_special_comp(course, cumulative_courses, student_info,prerequisites_special_comp,conditions_comp) and course not in cumulative_courses}
+            
+            not_taken_courses = [course for course in eligible_courses if course not in taken_courses]
+            
+            final_results_special_comp.append({
+                'Student_ID': student_id,
+                'Semester': semester,
+                'Major': student_info['Major'],
+                'College': student_info['College'],
+                'Program': student_info['Program'],
+                'Passed Credits': student_info['Passed Credits'],
+                'Student_Level': student_info['Student_Level'],
+                'Eligible_Courses': not_taken_courses
+            })
+
+    final_results_special_df_comp = pd.DataFrame(final_results_special_comp)
+
+    # Combine Eligible Courses from Both DataFrames
+    combined_comp_list = combine_eligible_courses(final_results_df_comp, final_results_special_df_comp)
+
+    # Find Course Combinations for Co-requisites
+    combined_comp_list = combined_comp_list.apply(create_combined_courses, axis=1, co=comp_co)
+
+    # Exploding and Mapping Course Details
+    combined_df_comp = combined_comp_list.explode("Eligible_Courses_CO")
+    #combined_df_comp = combined_df_comp.dropna(subset=["Eligible_Courses_CO"])
+    combined_df_comp["AREA_OF_STUDY"] = combined_df_comp['Eligible_Courses_CO'].map(courses_comp.set_index('Course_ID')['AREA_OF_STUDY'])
+    combined_df_comp["COURSE_OF_STUDY"] = combined_df_comp['Eligible_Courses_CO'].map(courses_comp.set_index('Course_ID')['COURSE_OF_STUDY'])
+    combined_df_comp['Eligible_Courses_CO'] = combined_df_comp['Eligible_Courses_CO'].apply(lambda x: x if isinstance(x, list) else ([] if pd.isna(x) else [x]))
+
+    # Find Additional Eligibilities
+    combined_df_comp['Future_Eligible_Courses_List'] = combined_df_comp.apply(lambda row: find_additional_eligibilities(row['Eligible_Courses_CO'], set(row['Eligible_Courses_CO']), prerequisites_comp), axis=1)
+    combined_df_comp['Total_Future_Eligible_Courses'] = combined_df_comp['Future_Eligible_Courses_List'].apply(len)
+
+    # Special Additional Eligibilities
+    combined_df_comp['Future_Eligible_Courses_List_Special'] = combined_df_comp.apply(lambda row: find_additional_eligibilities_special(row['Eligible_Courses_CO'], set(row['Eligible_Courses_CO']), row, prerequisites_special_comp, conditions_comp, is_eligible_special_comp_), axis=1)
+    combined_df_comp['Total_Future_Eligible_Courses_Special'] = combined_df_comp['Future_Eligible_Courses_List_Special'].apply(len)
+
+    # Combine Future Eligible Courses
+    combined_df_comp["Future_Eligible_Courses"] = combined_df_comp["Future_Eligible_Courses_List"] + combined_df_comp["Future_Eligible_Courses_List_Special"]
+    combined_df_comp['Course_Score'] = combined_df_comp['Future_Eligible_Courses'].apply(len)
+
+    # Find Best Courses
+    recommended_courses_comp = combined_df_comp.groupby(['Student_ID', 'Semester']).apply(lambda group: pd.Series({'Recommended_Courses': find_best_courses(group)})).reset_index()
+    combined_df_comp = combined_df_comp.merge(recommended_courses_comp, on=['Student_ID', 'Semester'])
+
+    return combined_df_comp,combined_comp_list,recommended_courses_comp
+
 major_processing_functions = {
     "Accounting": process_data_acc,
     "International Business": process_data_ib,
@@ -2256,6 +2745,9 @@ major_processing_functions = {
     "English Literature": process_data_eng_lit,
     "Public relations & Advertising": process_data_pr,
     "Visual Communication": process_data_vc,
+    "Engineering Management": process_data_mgmt,
+    "Electrical Engineering": process_data_elec,
+    "Computer Engineering": process_data_comp
 }
 
 
