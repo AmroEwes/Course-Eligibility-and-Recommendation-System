@@ -2885,10 +2885,10 @@ elif navigation == "Course Eligibility and Recommendation System":
                                 st.dataframe(combined_list)
 
                                 # Download the DataFrame as CSV
-                                st.header("Download Combined List Data")
+                                st.header("Download Eligible Courses Data")
                                 csv = combined_list.to_csv(index=False)
                                 st.download_button(
-                                    label="Download combined list data as CSV",
+                                    label="Download Eligible Courses data as CSV",
                                     data=csv,
                                     file_name='combined_list.csv',
                                     mime='text/csv',
@@ -3060,10 +3060,10 @@ if navigation == "Quick Check":
                 st.dataframe(combined_list)
                 
                 # Download the DataFrame as CSV
-                st.header("Download Combined List Data")
+                st.header("Download Eligible Courses Data")
                 csv = combined_list.to_csv(index=False)
                 st.download_button(
-                    label="Download combined list data as CSV",
+                    label="Download Eligible Courses data as CSV",
                     data=csv,
                     file_name='combined_list.csv',
                     mime='text/csv',
