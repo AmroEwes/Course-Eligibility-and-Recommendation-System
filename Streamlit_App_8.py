@@ -3030,22 +3030,25 @@ if navigation == "Quick Check":
             combined_list_list = []
             recommended_courses_list = []
 
-            for info in student_info_list:
-                major = info['Major']
+            # Combine all student info into a single DataFrame
+            combined_data = pd.DataFrame(student_info_list)
+            combined_data = combined_data.explode("Course_ID")
+
+            st.success("Manual Data entered successfully!")
+            st.dataframe(combined_data)
+
+            for major in combined_data['Major'].unique():
                 process_function = major_processing_functions.get(major)
                 if process_function:
-                    data = pd.DataFrame([info])
-                    data = data.explode("Course_ID")
-                    st.success("Manual Data entered successfully!")
-                    st.dataframe(data)
-                    combined_df, combined_list, recommended_courses = process_function(data, data, major_data)
+                    major_data_ = combined_data[combined_data['Major'] == major]
+                    combined_df, combined_list, recommended_courses = process_function(major_data_, major_data_, major_data)
                     combined_df_list.append(combined_df)
                     combined_list_list.append(combined_list)
                     recommended_courses_list.append(recommended_courses)
                 else:
                     st.error(f"No processing function found for major: {major}")
 
-            # Combine the processed dataframes for different semesters
+            # Combine the processed dataframes for different majors
             combined_df = pd.concat(combined_df_list, ignore_index=True)
             combined_list = pd.concat(combined_list_list, ignore_index=True)
             recommended_courses = pd.concat(recommended_courses_list, ignore_index=True)
