@@ -456,9 +456,9 @@ def is_eligible_special_comp(course, taken_courses, student_info,prerequisites,c
     elif condition == "Senior_ECOM":
         return student_info['Student_Level'] == 4 and student_info['Program'] == "Computer Engineering"
     elif condition == "AND_OR_2":
-        return all(prereq in taken_courses for prereq in prereqs[:2]) and any(prereq in taken_courses for prereq in prereqs[3:])
+        return all(prereq in taken_courses for prereq in prereqs[:2]) and any(prereq in taken_courses for prereq in prereqs[2:])
     elif condition == "AND_OR_3":
-        return any(prereq in taken_courses for prereq in prereqs[:2]) and all(prereq in taken_courses for prereq in prereqs[3:])
+        return any(prereq in taken_courses for prereq in prereqs[:2]) and all(prereq in taken_courses for prereq in prereqs[2:])
     elif condition == "AND_College_OR":
         return all(prereq in taken_courses for prereq in prereqs) and (student_info['Major'] == "Computer Science" or student_info['College'] == "COE")
     else:
@@ -863,9 +863,9 @@ def is_eligible_special_comp_(course, taken_courses, student_info,prerequisites,
     elif condition == "AND_OR":
         return prereqs and prereqs[0] in taken_courses and any(prereq in taken_courses for prereq in prereqs[1:])
     elif condition == "AND_OR_2":
-        return all(prereq in taken_courses for prereq in prereqs[:2]) and any(prereq in taken_courses for prereq in prereqs[3:])
+        return all(prereq in taken_courses for prereq in prereqs[:2]) and any(prereq in taken_courses for prereq in prereqs[2:])
     elif condition == "AND_OR_3":
-        return any(prereq in taken_courses for prereq in prereqs[:2]) and all(prereq in taken_courses for prereq in prereqs[3:])
+        return any(prereq in taken_courses for prereq in prereqs[:2]) and all(prereq in taken_courses for prereq in prereqs[2:])
     elif condition == "AND_College_OR":
         return all(prereq in taken_courses for prereq in prereqs) and (student_info['Major'] == "Computer Science" or student_info['College'] == "COE")
     else:
