@@ -3033,6 +3033,7 @@ if navigation == "Quick Check":
             # Combine all student info into a single DataFrame
             combined_data = pd.DataFrame(student_info_list)
             combined_data = combined_data.explode("Course_ID")
+            combined_data["College"] = combined_data["College"].replace("CEA","COE")
 
             st.success("Manual Data entered successfully!")
             st.dataframe(combined_data)
