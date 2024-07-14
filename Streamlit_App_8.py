@@ -71,6 +71,8 @@ def is_eligible_special_acc(course, taken_courses, student_info,prerequisites,co
         return student_info['Student_Level'] == 3 and student_info['Major'] == "Accounting"
     elif condition == "AND_Major_ACC":
         return all(prereq in taken_courses for prereq in prereqs) and student_info['Major'] == "Accounting"
+    elif condition == "Senior":
+        return student_info['Student_Level'] == 4
     else:
         return False
 
@@ -102,6 +104,8 @@ def is_eligible_special_ib(course, taken_courses, student_info,prerequisites,con
         return student_info['Student_Level'] == 3 and student_info['Major'] == "International Business"
     elif condition == "Junior_And_Major_MOB":
         return student_info['Student_Level'] == 3 and student_info['Major'] == "Mgmt & Organizational Behavior"
+    elif condition == "Senior":
+        return student_info['Student_Level'] == 4
     else:
         return False
     
@@ -133,6 +137,8 @@ def is_eligible_special_mob(course, taken_courses, student_info,prerequisites,co
         return student_info['Student_Level'] == 3 and student_info['Major'] == "International Business"
     elif condition == "Junior_And_Major_MOB":
         return student_info['Student_Level'] == 3 and student_info['Major'] == "Mgmt & Organizational Behavior"
+    elif condition == "Senior":
+        return student_info['Student_Level'] == 4
     else:
         return False
 
@@ -160,6 +166,8 @@ def is_eligible_special_mis(course, taken_courses, student_info,prerequisites,co
         return student_info['Student_Level'] == 3 and student_info['Major'] == "Management Information Systems"
     elif condition == "AND_Major_MIS":
         return all(prereq in taken_courses for prereq in prereqs) and student_info['Major'] == "Management Information Systems"
+    elif condition == "Senior":
+        return student_info['Student_Level'] == 4
     else:
         return False
     
@@ -219,6 +227,8 @@ def is_eligible_special_fin(course, taken_courses, student_info,prerequisites,co
         return all(prereq in taken_courses for prereq in prereqs) and student_info['Major'] == "Finance"
     elif condition == "AND_Senior":
         return all(prereq in taken_courses for prereq in prereqs) and student_info['Student_Level'] == 4
+    elif condition == "Senior":
+        return student_info['Student_Level'] == 4
     else:
         return False
     
