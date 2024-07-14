@@ -3009,7 +3009,7 @@ if navigation == "Quick Check":
 
         major = st.selectbox(f"Major (Semester {i + 1}):", majors, key=f"major_{i}")
         passed_credits = st.number_input(f"Passed Credits (Semester {i + 1}):", value=0, min_value=0)
-        student_level = st.selectbox(f"Student Level (Semester {i + 1}):", [1, 2, 3, 4])
+        student_level = st.selectbox(f"Student Level (Semester {i + 1}):", ["Freshman", "Sophomore", "Junior", "Senior"])
 
         # Ensure that course IDs are selected
         course_id = st.multiselect(f"Course ID (Semester {i + 1}):", course_list, key=f"course_id_{i}")
@@ -3045,6 +3045,7 @@ if navigation == "Quick Check":
             combined_data = pd.DataFrame(student_info_list)
             combined_data = combined_data.explode("Course_ID")
             combined_data["College"] = combined_data["College"].replace("CEA","COE")
+            combined_data["Student_Level"] = combined_data["Student_Level"].replace({"Freshman": 1, "Sophomore": 2, "Junior": 3, "Senior": 4})
 
             st.success("Manual Data entered successfully!")
             st.table(combined_data)
