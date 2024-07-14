@@ -986,6 +986,7 @@ def process_data_acc(cba_data, acc_data, major_data):
     # Find Best Courses
     recommended_courses_acc = combined_df_acc.groupby(['Student_ID', 'Semester']).apply(lambda group: pd.Series({'Recommended_Courses': find_best_courses_cba(group)})).reset_index()
     combined_df_acc = combined_df_acc.merge(recommended_courses_acc, on=['Student_ID', 'Semester'])
+    #recommended_courses_acc_explode = recommended_courses_acc.explode("Recommended_Courses")
 
 
     return combined_df_acc,combined_acc_list,recommended_courses_acc
@@ -3036,7 +3037,7 @@ if navigation == "Quick Check":
             combined_data["College"] = combined_data["College"].replace("CEA","COE")
 
             st.success("Manual Data entered successfully!")
-            st.dataframe(combined_data)
+            st.table(combined_data)
 
             for major in combined_data['Major'].unique():
                 process_function = major_processing_functions.get(major)
@@ -3061,7 +3062,7 @@ if navigation == "Quick Check":
                 st.warning("Please Choose the required Data!")
             elif section == "Eligible Courses":
                 st.header("Eligible Courses Data")
-                st.dataframe(combined_list)
+                st.table(combined_list)
                 
                 # Download the DataFrame as CSV
                 st.header("Download Eligible Courses Data")
@@ -3074,7 +3075,7 @@ if navigation == "Quick Check":
                 )
             elif section == "Recommended Courses":
                 st.header("Recommended Courses Data")
-                st.dataframe(recommended_courses)
+                st.table(recommended_courses)
                 
                 # Download the DataFrame as CSV
                 st.header("Download Recommended Courses Data")
@@ -3087,7 +3088,7 @@ if navigation == "Quick Check":
                 )
             elif section == "Combined Data":
                 st.header("Combined Data")
-                st.dataframe(combined_df)
+                st.table(combined_df)
                 
                 # Download the DataFrame as CSV
                 st.header("Download Combined Data")
