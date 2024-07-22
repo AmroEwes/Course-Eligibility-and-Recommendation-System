@@ -2837,7 +2837,9 @@ elif navigation == "Course Eligibility and Recommendation System":
     if student_file and selected_college != "Please Select The Required College!" and selected_major:
         # Reading student data
         try:
-            data = pd.read_csv(student_file)
+            data = pd.read_csv(student_file,dtype=str)
+            data["Student_Level"] = data["Student_Level"].astype(int)
+            data["Passed Credits"] = data["Passed Credits"].astype(int) 
             st.success("Student Data loaded successfully!")
 
             # Check for major mismatch
@@ -2955,8 +2957,8 @@ if navigation == "Quick Check":
     for i in range(num_semesters):
         st.subheader(f"Semester {i + 1} Information")
 
-        student_id = st.number_input(f"Student ID (Semester {i + 1}):", value=0, min_value=0)
-        semester = st.number_input(f"Semester (Semester {i + 1}):", value=0, min_value=0)
+        student_id = st.text_input(f"Student ID (Semester {i + 1}):")
+        semester = st.text_input(f"Semester (Semester {i + 1}):")
         college = st.selectbox(f"College (Semester {i + 1}):", ["Please Select The Required College!", "CBA", "CAS", "CEA"], key=f"college_{i}")
 
         if college == "Please Select The Required College!":
