@@ -547,8 +547,6 @@ def is_eligible_special_acc_(course, taken_courses, student_info,prerequisites,c
         return all(prereq in taken_courses for prereq in prereqs) and student_info['Major'] != "Computer Science"
     elif condition == "OR_AND_NOT_CS":
         return any(prereq in taken_courses for prereq in prereqs) and student_info['Major'] != "Computer Science"
-    elif condition == "AND_OR":
-        return prereqs and prereqs[0] in taken_courses and any(prereq in taken_courses for prereq in prereqs[1:])
     elif condition == "AND_Senior":
         return all(prereq in taken_courses for prereq in prereqs) and student_info['Student_Level'] == 4
     elif condition == "AND_Major_ACC":
@@ -572,8 +570,6 @@ def is_eligible_special_ib_(course, taken_courses, student_info,prerequisites,co
         return all(prereq in taken_courses for prereq in prereqs) and student_info['Major'] != "Computer Science"
     elif condition == "OR_AND_NOT_CS":
         return any(prereq in taken_courses for prereq in prereqs) and student_info['Major'] != "Computer Science"
-    elif condition == "AND_OR":
-        return prereqs and prereqs[0] in taken_courses and any(prereq in taken_courses for prereq in prereqs[1:])
     else:
         return False
     
@@ -593,8 +589,6 @@ def is_eligible_special_mob_(course, taken_courses, student_info,prerequisites,c
         return all(prereq in taken_courses for prereq in prereqs) and student_info['Major'] != "Computer Science"
     elif condition == "OR_AND_NOT_CS":
         return any(prereq in taken_courses for prereq in prereqs) and student_info['Major'] != "Computer Science"
-    elif condition == "AND_OR":
-        return prereqs and prereqs[0] in taken_courses and any(prereq in taken_courses for prereq in prereqs[1:])
     else:
         return False
     
@@ -610,8 +604,6 @@ def is_eligible_special_mis_(course, taken_courses, student_info,prerequisites,c
         return all(prereq in taken_courses for prereq in prereqs) and student_info['Major'] != "Computer Science"
     elif condition == "OR_AND_NOT_CS":
         return any(prereq in taken_courses for prereq in prereqs) and student_info['Major'] != "Computer Science"
-    elif condition == "AND_OR":
-        return prereqs and prereqs[0] in taken_courses and any(prereq in taken_courses for prereq in prereqs[1:])
     elif condition == "AND_Major_MIS":
         return all(prereq in taken_courses for prereq in prereqs) and student_info['Major'] == "Management Information Systems"
     else:
@@ -631,8 +623,6 @@ def is_eligible_special_mrkt_(course, taken_courses, student_info,prerequisites,
         return all(prereq in taken_courses for prereq in prereqs) and student_info['Major'] != "Computer Science"
     elif condition == "OR_AND_NOT_CS":
         return any(prereq in taken_courses for prereq in prereqs) and student_info['Major'] != "Computer Science"
-    elif condition == "AND_OR":
-        return prereqs and prereqs[0] in taken_courses and any(prereq in taken_courses for prereq in prereqs[1:])
     elif condition == "AND_Major_MRKT":
         return all(prereq in taken_courses for prereq in prereqs) and student_info['Major'] == "Marketing"
     else:
@@ -650,10 +640,6 @@ def is_eligible_special_fin_(course, taken_courses, student_info,prerequisites,c
         return all(prereq in taken_courses for prereq in prereqs) and student_info['Major'] != "Computer Science"
     elif condition == "OR_AND_NOT_CS":
         return any(prereq in taken_courses for prereq in prereqs) and student_info['Major'] != "Computer Science"
-    elif condition == "AND_OR":
-        return prereqs and prereqs[0] in taken_courses and any(prereq in taken_courses for prereq in prereqs[1:])
-    elif condition == "OR_AND":
-        return all(prereq in taken_courses for prereq in prereqs[:2]) or any(prereq in taken_courses for prereq in prereqs[2:])
     elif condition == "AND_Major_FIN":
         return all(prereq in taken_courses for prereq in prereqs) and student_info['Major'] == "Finance"
     elif condition == "AND_Senior":
@@ -669,14 +655,10 @@ def is_eligible_special_cs_(course, taken_courses, student_info,prerequisites,co
         return any(prereq in taken_courses for prereq in prereqs)
     elif condition == "AND":
         return all(prereq in taken_courses for prereq in prereqs)
-    elif condition == "AND_OR":
-        return prereqs and prereqs[0] in taken_courses and any(prereq in taken_courses for prereq in prereqs[1:])
     elif condition == "AND_College_OR":
         return all(prereq in taken_courses for prereq in prereqs) and (student_info['Major'] == "Computer Science" or student_info['College'] == "COE")
     elif condition == "OR_CS":
         return any(prereq in taken_courses for prereq in prereqs) and student_info['Major'] == "Computer Science"
-    elif condition == "Any_Two":
-        return sum(prereq in taken_courses for prereq in prereqs) >= 2
     elif condition == "OR_AND_College_OR":
         return any(prereq in taken_courses for prereq in prereqs) and (student_info['Major'] == "Computer Science" or student_info['College'] == "COE")
     else:
@@ -696,12 +678,6 @@ def is_eligible_special_dmp_(course, taken_courses, student_info,prerequisites,c
         return all(prereq in taken_courses for prereq in prereqs) and student_info['Passed Credits'] >= 54 and student_info['Program'] == "Mass Communication"
     elif condition == "AND_Credits_MCOM_2":
         return all(prereq in taken_courses for prereq in prereqs) and student_info['Passed Credits'] >= 60 and student_info['Program'] == "Mass Communication"
-    elif condition == "AND_OR_2":
-        return prereqs and prereqs[0] in taken_courses and any(prereq in taken_courses for prereq in prereqs[1:3]) and any(prereq in taken_courses for prereq in prereqs[3:])
-    elif condition == "AND_OR_PR":
-        return (all(prereq in taken_courses for prereq in prereqs[:3]) and student_info['Major'] == "Public relations & Advertising") or all(prereq in taken_courses for prereq in prereqs[4:]) 
-    elif condition == "AND_OR_Junior_Program":
-        return prereqs and prereqs[0] in taken_courses and any(prereq in taken_courses for prereq in prereqs[1:]) and student_info['Student_Level'] == 3 and student_info['Program'] == "Mass Communication"
     elif condition == "OR_AND_Program_OR":
         return any(prereq in taken_courses for prereq in prereqs) and (student_info['Program'] == "Mass Communication" or student_info['Program'] == "English")
     elif condition == "AND_Junior":
@@ -742,8 +718,6 @@ def is_eligible_special_eng_edu_(course, taken_courses, student_info,prerequisit
         return all(prereq in taken_courses for prereq in prereqs) and student_info['Program'] == "English"
     elif condition == "OR_AND_Program_OR":
         return any(prereq in taken_courses for prereq in prereqs) and (student_info['Program'] == "Mass Communication" or student_info['Program'] == "English")
-    elif condition == "Any_Three":
-        return sum(prereq in taken_courses for prereq in prereqs) >= 3
     else:
         return False
     
@@ -776,12 +750,6 @@ def is_eligible_special_pr_(course, taken_courses, student_info,prerequisites,co
         return all(prereq in taken_courses for prereq in prereqs) and student_info['Passed Credits'] >= 54 and student_info['Program'] == "Mass Communication"
     elif condition == "AND_Credits_MCOM_2":
         return all(prereq in taken_courses for prereq in prereqs) and student_info['Passed Credits'] >= 60 and student_info['Program'] == "Mass Communication"
-    elif condition == "AND_OR_2":
-        return prereqs and prereqs[0] in taken_courses and any(prereq in taken_courses for prereq in prereqs[1:3]) and any(prereq in taken_courses for prereq in prereqs[3:])
-    elif condition == "AND_OR_PR":
-        return (all(prereq in taken_courses for prereq in prereqs[:3]) and student_info['Major'] == "Public relations & Advertising") or all(prereq in taken_courses for prereq in prereqs[4:])
-    elif condition == "AND_OR_Junior_Program":
-        return prereqs and prereqs[0] in taken_courses and any(prereq in taken_courses for prereq in prereqs[1:]) and student_info['Student_Level'] == 3 and student_info['Program'] == "Mass Communication"
     elif condition == "OR_AND_Program_OR":
         return any(prereq in taken_courses for prereq in prereqs) and (student_info['Program'] == "Mass Communication" or student_info['Program'] == "English")
     elif condition == "AND_Junior_Program":
@@ -803,14 +771,8 @@ def is_eligible_special_vc_(course, taken_courses, student_info,prerequisites,co
         return any(prereq in taken_courses for prereq in prereqs) and student_info['Program'] == "Mass Communication"
     elif condition == "AND_Credits_MCOM":
         return all(prereq in taken_courses for prereq in prereqs) and student_info['Passed Credits'] >= 54 and student_info['Program'] == "Mass Communication"
-    elif condition == "AND_OR_Junior_Program":
-        return prereqs and prereqs[0] in taken_courses and any(prereq in taken_courses for prereq in prereqs[1:]) and student_info['Student_Level'] == 3 and student_info['Program'] == "Mass Communication"
     elif condition == "AND_Credits_MCOM_2":
         return all(prereq in taken_courses for prereq in prereqs) and student_info['Passed Credits'] >= 60 and student_info['Program'] == "Mass Communication"
-    elif condition == "AND_OR_2":
-        return prereqs and prereqs[0] in taken_courses and any(prereq in taken_courses for prereq in prereqs[1:3]) and any(prereq in taken_courses for prereq in prereqs[3:])
-    elif condition == "AND_OR_PR":
-        return (all(prereq in taken_courses for prereq in prereqs[:3]) and student_info['Major'] == "Public relations & Advertising") or all(prereq in taken_courses for prereq in prereqs[4:])
     elif condition == "OR_AND_Program_OR":
         return any(prereq in taken_courses for prereq in prereqs) and (student_info['Program'] == "Mass Communication" or student_info['Program'] == "English")
     elif condition == "AND_Junior_Program":
@@ -830,8 +792,6 @@ def is_eligible_special_mgmt_(course, taken_courses, student_info,prerequisites,
         return all(prereq in taken_courses for prereq in prereqs) and student_info['College'] == "COE"
     elif condition == "AND_College_OR":
         return all(prereq in taken_courses for prereq in prereqs) and (student_info['Major'] == "Computer Science" or student_info['College'] == "COE")
-    elif condition == "AND_OR_2":
-        return all(prereq in taken_courses for prereq in prereqs[:2]) and any(prereq in taken_courses for prereq in prereqs[3:])
     else:
         return False
     
@@ -851,10 +811,6 @@ def is_eligible_special_elec_(course, taken_courses, student_info,prerequisites,
         return all(prereq in taken_courses for prereq in prereqs) and (student_info['Major'] == "Computer Science" or student_info['College'] == "COE")
     elif condition == "AND_Senior":
         return student_info['Student_Level'] == 4 and all(prereq in taken_courses for prereq in prereqs)
-    elif condition == "AND_OR_2":
-        return all(prereq in taken_courses for prereq in prereqs[:2]) and any(prereq in taken_courses for prereq in prereqs[3:])
-    elif condition == "AND_3_Courses":
-        return all(prereq in taken_courses for prereq in prereqs[:3]) and sum(prereq in taken_courses for prereq in prereqs[3:]) >= 3
     else:
         return False
     
@@ -870,12 +826,6 @@ def is_eligible_special_comp_(course, taken_courses, student_info,prerequisites,
         return all(prereq in taken_courses for prereq in prereqs) and student_info['College'] == "COE"
     elif condition == "OR_AND_College_OR":
         return any(prereq in taken_courses for prereq in prereqs) and (student_info['Major'] == "Computer Science" or student_info['College'] == "COE")
-    elif condition == "AND_OR":
-        return prereqs and prereqs[0] in taken_courses and any(prereq in taken_courses for prereq in prereqs[1:])
-    elif condition == "AND_OR_2":
-        return all(prereq in taken_courses for prereq in prereqs[:2]) and any(prereq in taken_courses for prereq in prereqs[2:])
-    elif condition == "AND_OR_3":
-        return any(prereq in taken_courses for prereq in prereqs[:2]) and all(prereq in taken_courses for prereq in prereqs[2:])
     elif condition == "AND_College_OR":
         return all(prereq in taken_courses for prereq in prereqs) and (student_info['Major'] == "Computer Science" or student_info['College'] == "COE")
     else:
@@ -976,7 +926,6 @@ def process_data_acc(cba_data, acc_data, major_data):
 
     # Exploding and Mapping Course Details
     combined_df_acc = combined_acc_list.explode("Eligible_Courses")
-    #combined_df_acc = combined_df_acc.dropna(subset=["Eligible_Courses"])
     combined_df_acc["AREA_OF_STUDY"] = combined_df_acc['Eligible_Courses'].map(courses_acc.set_index('Course_ID')['AREA_OF_STUDY'])
     combined_df_acc["COURSE_OF_STUDY"] = combined_df_acc['Eligible_Courses'].map(courses_acc.set_index('Course_ID')['COURSE_OF_STUDY'])
     combined_df_acc['Eligible_Courses'] = combined_df_acc['Eligible_Courses'].apply(lambda x: x if isinstance(x, list) else ([] if pd.isna(x) else [x]))
@@ -996,8 +945,6 @@ def process_data_acc(cba_data, acc_data, major_data):
     # Find Best Courses
     recommended_courses_acc = combined_df_acc.groupby(['Student_ID', 'Semester']).apply(lambda group: pd.Series({'Recommended_Courses': find_best_courses_cba(group)})).reset_index()
     combined_df_acc = combined_df_acc.merge(recommended_courses_acc, on=['Student_ID', 'Semester'])
-    #recommended_courses_acc_explode = recommended_courses_acc.explode("Recommended_Courses")
-
 
     return combined_df_acc,combined_acc_list,recommended_courses_acc
 
@@ -1086,7 +1033,6 @@ def process_data_ib(cba_data, ib_data, major_data):
 
     # Exploding and Mapping Course Details
     combined_df_ib = combined_ib_list.explode("Eligible_Courses")
-    #combined_df_ib = combined_df_ib.dropna(subset=["Eligible_Courses"])
     combined_df_ib["AREA_OF_STUDY"] = combined_df_ib['Eligible_Courses'].map(courses_ib.set_index('Course_ID')['AREA_OF_STUDY'])
     combined_df_ib["COURSE_OF_STUDY"] = combined_df_ib['Eligible_Courses'].map(courses_ib.set_index('Course_ID')['COURSE_OF_STUDY'])
     combined_df_ib['Eligible_Courses'] = combined_df_ib['Eligible_Courses'].apply(lambda x: x if isinstance(x, list) else ([] if pd.isna(x) else [x]))
@@ -1194,7 +1140,6 @@ def process_data_mob(cba_data, mob_data, major_data):
 
     # Exploding and Mapping Course Details
     combined_df_mob = combined_mob_list.explode("Eligible_Courses")
-    #combined_df_mob = combined_df_mob.dropna(subset=["Eligible_Courses"])
     combined_df_mob["AREA_OF_STUDY"] = combined_df_mob['Eligible_Courses'].map(courses_mob.set_index('Course_ID')['AREA_OF_STUDY'])
     combined_df_mob["COURSE_OF_STUDY"] = combined_df_mob['Eligible_Courses'].map(courses_mob.set_index('Course_ID')['COURSE_OF_STUDY'])
     combined_df_mob['Eligible_Courses'] = combined_df_mob['Eligible_Courses'].apply(lambda x: x if isinstance(x, list) else ([] if pd.isna(x) else [x]))
@@ -1302,7 +1247,6 @@ def process_data_mis(cba_data, mis_data, major_data):
 
     # Exploding and Mapping Course Details
     combined_df_mis = combined_mis_list.explode("Eligible_Courses")
-    #combined_df_mis = combined_df_mis.dropna(subset=["Eligible_Courses"])
     combined_df_mis["AREA_OF_STUDY"] = combined_df_mis['Eligible_Courses'].map(courses_mis.set_index('Course_ID')['AREA_OF_STUDY'])
     combined_df_mis["COURSE_OF_STUDY"] = combined_df_mis['Eligible_Courses'].map(courses_mis.set_index('Course_ID')['COURSE_OF_STUDY'])
     combined_df_mis['Eligible_Courses'] = combined_df_mis['Eligible_Courses'].apply(lambda x: x if isinstance(x, list) else ([] if pd.isna(x) else [x]))
@@ -1410,7 +1354,6 @@ def process_data_mrkt(cba_data, mrkt_data, major_data):
 
     # Exploding and Mapping Course Details
     combined_df_mrkt = combined_mrkt_list.explode("Eligible_Courses")
-    #combined_df_mrkt = combined_df_mrkt.dropna(subset=["Eligible_Courses"])
     combined_df_mrkt["AREA_OF_STUDY"] = combined_df_mrkt['Eligible_Courses'].map(courses_mrkt.set_index('Course_ID')['AREA_OF_STUDY'])
     combined_df_mrkt["COURSE_OF_STUDY"] = combined_df_mrkt['Eligible_Courses'].map(courses_mrkt.set_index('Course_ID')['COURSE_OF_STUDY'])
     combined_df_mrkt['Eligible_Courses'] = combined_df_mrkt['Eligible_Courses'].apply(lambda x: x if isinstance(x, list) else ([] if pd.isna(x) else [x]))
@@ -1518,7 +1461,6 @@ def process_data_fin(cba_data, fin_data, major_data):
 
     # Exploding and Mapping Course Details
     combined_df_fin = combined_fin_list.explode("Eligible_Courses")
-    #combined_df_fin = combined_df_fin.dropna(subset=["Eligible_Courses"])
     combined_df_fin["AREA_OF_STUDY"] = combined_df_fin['Eligible_Courses'].map(courses_fin.set_index('Course_ID')['AREA_OF_STUDY'])
     combined_df_fin["COURSE_OF_STUDY"] = combined_df_fin['Eligible_Courses'].map(courses_fin.set_index('Course_ID')['COURSE_OF_STUDY'])
     combined_df_fin['Eligible_Courses'] = combined_df_fin['Eligible_Courses'].apply(lambda x: x if isinstance(x, list) else ([] if pd.isna(x) else [x]))
@@ -1638,7 +1580,6 @@ def process_data_cs(cas_data, cs_data, major_data):
 
     # Exploding and Mapping Course Details
     combined_df_cs = combined_cs_list.explode("Eligible_Courses_CO")
-    #combined_df_cs = combined_df_cs.dropna(subset=["Eligible_Courses_CO"])
     combined_df_cs["AREA_OF_STUDY"] = combined_df_cs['Eligible_Courses_CO'].map(courses_cs.set_index('Course_ID')['AREA_OF_STUDY'])
     combined_df_cs["COURSE_OF_STUDY"] = combined_df_cs['Eligible_Courses_CO'].map(courses_cs.set_index('Course_ID')['COURSE_OF_STUDY'])
     combined_df_cs['Eligible_Courses_CO'] = combined_df_cs['Eligible_Courses_CO'].apply(lambda x: x if isinstance(x, list) else ([] if pd.isna(x) else [x]))
@@ -1758,7 +1699,6 @@ def process_data_dmp(cas_data, dmp_data, major_data):
 
     # Exploding and Mapping Course Details
     combined_df_dmp = combined_dmp_list.explode("Eligible_Courses_CO")
-    #combined_df_dmp = combined_df_dmp.dropna(subset=["Eligible_Courses_CO"])
     combined_df_dmp["AREA_OF_STUDY"] = combined_df_dmp['Eligible_Courses_CO'].map(courses_dmp.set_index('Course_ID')['AREA_OF_STUDY'])
     combined_df_dmp["COURSE_OF_STUDY"] = combined_df_dmp['Eligible_Courses_CO'].map(courses_dmp.set_index('Course_ID')['COURSE_OF_STUDY'])
     combined_df_dmp['Eligible_Courses_CO'] = combined_df_dmp['Eligible_Courses_CO'].apply(lambda x: x if isinstance(x, list) else ([] if pd.isna(x) else [x]))
@@ -1999,7 +1939,6 @@ def process_data_eng_edu(cas_data, eng_edu_data, major_data):
 
     # Exploding and Mapping Course Details
     combined_df_eng_edu = combined_eng_edu_list.explode("Eligible_Courses_CO")
-    #combined_df_eng_edu = combined_df_eng_edu.dropna(subset=["Eligible_Courses_CO"])
     combined_df_eng_edu["AREA_OF_STUDY"] = combined_df_eng_edu['Eligible_Courses_CO'].map(courses_eng_edu.set_index('Course_ID')['AREA_OF_STUDY'])
     combined_df_eng_edu["COURSE_OF_STUDY"] = combined_df_eng_edu['Eligible_Courses_CO'].map(courses_eng_edu.set_index('Course_ID')['COURSE_OF_STUDY'])
     combined_df_eng_edu['Eligible_Courses_CO'] = combined_df_eng_edu['Eligible_Courses_CO'].apply(lambda x: x if isinstance(x, list) else ([] if pd.isna(x) else [x]))
@@ -2119,7 +2058,6 @@ def process_data_eng_lit(cas_data, eng_lit_data, major_data):
 
     # Exploding and Mapping Course Details
     combined_df_eng_lit = combined_eng_lit_list.explode("Eligible_Courses_CO")
-    #combined_df_eng_lit = combined_df_eng_lit.dropna(subset=["Eligible_Courses_CO"])
     combined_df_eng_lit["AREA_OF_STUDY"] = combined_df_eng_lit['Eligible_Courses_CO'].map(courses_eng_lit.set_index('Course_ID')['AREA_OF_STUDY'])
     combined_df_eng_lit["COURSE_OF_STUDY"] = combined_df_eng_lit['Eligible_Courses_CO'].map(courses_eng_lit.set_index('Course_ID')['COURSE_OF_STUDY'])
     combined_df_eng_lit['Eligible_Courses_CO'] = combined_df_eng_lit['Eligible_Courses_CO'].apply(lambda x: x if isinstance(x, list) else ([] if pd.isna(x) else [x]))
@@ -2239,7 +2177,6 @@ def process_data_pr(cas_data, pr_data, major_data):
 
     # Exploding and Mapping Course Details
     combined_df_pr = combined_pr_list.explode("Eligible_Courses_CO")
-    #combined_df_pr = combined_df_pr.dropna(subset=["Eligible_Courses_CO"])
     combined_df_pr["AREA_OF_STUDY"] = combined_df_pr['Eligible_Courses_CO'].map(courses_pr.set_index('Course_ID')['AREA_OF_STUDY'])
     combined_df_pr["COURSE_OF_STUDY"] = combined_df_pr['Eligible_Courses_CO'].map(courses_pr.set_index('Course_ID')['COURSE_OF_STUDY'])
     combined_df_pr['Eligible_Courses_CO'] = combined_df_pr['Eligible_Courses_CO'].apply(lambda x: x if isinstance(x, list) else ([] if pd.isna(x) else [x]))
@@ -2359,7 +2296,6 @@ def process_data_vc(cas_data, vc_data, major_data):
 
     # Exploding and Mapping Course Details
     combined_df_vc = combined_vc_list.explode("Eligible_Courses_CO")
-    #combined_df_vc = combined_df_vc.dropna(subset=["Eligible_Courses_CO"])
     combined_df_vc["AREA_OF_STUDY"] = combined_df_vc['Eligible_Courses_CO'].map(courses_vc.set_index('Course_ID')['AREA_OF_STUDY'])
     combined_df_vc["COURSE_OF_STUDY"] = combined_df_vc['Eligible_Courses_CO'].map(courses_vc.set_index('Course_ID')['COURSE_OF_STUDY'])
     combined_df_vc['Eligible_Courses_CO'] = combined_df_vc['Eligible_Courses_CO'].apply(lambda x: x if isinstance(x, list) else ([] if pd.isna(x) else [x]))
@@ -2479,7 +2415,6 @@ def process_data_mgmt(cea_data, mgmt_data, major_data):
 
     # Exploding and Mapping Course Details
     combined_df_mgmt = combined_mgmt_list.explode("Eligible_Courses_CO")
-    #combined_df_mgmt = combined_df_mgmt.dropna(subset=["Eligible_Courses_CO"])
     combined_df_mgmt["AREA_OF_STUDY"] = combined_df_mgmt['Eligible_Courses_CO'].map(courses_mgmt.set_index('Course_ID')['AREA_OF_STUDY'])
     combined_df_mgmt["COURSE_OF_STUDY"] = combined_df_mgmt['Eligible_Courses_CO'].map(courses_mgmt.set_index('Course_ID')['COURSE_OF_STUDY'])
     combined_df_mgmt['Eligible_Courses_CO'] = combined_df_mgmt['Eligible_Courses_CO'].apply(lambda x: x if isinstance(x, list) else ([] if pd.isna(x) else [x]))
@@ -2599,7 +2534,6 @@ def process_data_elec(cea_data, elec_data, major_data):
 
     # Exploding and Mapping Course Details
     combined_df_elec = combined_elec_list.explode("Eligible_Courses_CO")
-    #combined_df_elec = combined_df_elec.dropna(subset=["Eligible_Courses_CO"])
     combined_df_elec["AREA_OF_STUDY"] = combined_df_elec['Eligible_Courses_CO'].map(courses_elec.set_index('Course_ID')['AREA_OF_STUDY'])
     combined_df_elec["COURSE_OF_STUDY"] = combined_df_elec['Eligible_Courses_CO'].map(courses_elec.set_index('Course_ID')['COURSE_OF_STUDY'])
     combined_df_elec['Eligible_Courses_CO'] = combined_df_elec['Eligible_Courses_CO'].apply(lambda x: x if isinstance(x, list) else ([] if pd.isna(x) else [x]))
@@ -2719,7 +2653,6 @@ def process_data_comp(cea_data, comp_data, major_data):
 
     # Exploding and Mapping Course Details
     combined_df_comp = combined_comp_list.explode("Eligible_Courses_CO")
-    #combined_df_comp = combined_df_comp.dropna(subset=["Eligible_Courses_CO"])
     combined_df_comp["AREA_OF_STUDY"] = combined_df_comp['Eligible_Courses_CO'].map(courses_comp.set_index('Course_ID')['AREA_OF_STUDY'])
     combined_df_comp["COURSE_OF_STUDY"] = combined_df_comp['Eligible_Courses_CO'].map(courses_comp.set_index('Course_ID')['COURSE_OF_STUDY'])
     combined_df_comp['Eligible_Courses_CO'] = combined_df_comp['Eligible_Courses_CO'].apply(lambda x: x if isinstance(x, list) else ([] if pd.isna(x) else [x]))
@@ -3085,7 +3018,7 @@ if navigation == "Quick Check":
                         )
                     elif section == "Recommended Courses":
                         st.header("Recommended Courses Data")
-                        st.table(recommended_courses)
+                        st.dataframe(recommended_courses)
                         
                         # Download the DataFrame as CSV
                         st.header("Download Recommended Courses Data")
@@ -3098,7 +3031,7 @@ if navigation == "Quick Check":
                         )
                     elif section == "Combined Data":
                         st.header("Combined Data")
-                        st.table(combined_df)
+                        st.dataframe(combined_df)
                         
                         # Download the DataFrame as CSV
                         st.header("Download Combined Data")
