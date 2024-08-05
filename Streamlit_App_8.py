@@ -86,6 +86,8 @@ def is_eligible_special_ib(course, taken_courses, student_info,prerequisites,con
         return all(prereq in taken_courses for prereq in prereqs) and (student_info['Major'] == "International Business" or student_info['Major'] == "Mgmt & Organizational Behavior")
     elif condition == "AND_Major_MG_IB_MRKT":
         return all(prereq in taken_courses for prereq in prereqs) and (student_info['Major'] == "International Business" or student_info['Major'] == "Mgmt & Organizational Behavior" or student_info['Major'] == "Marketing")
+    elif condition == "AND_Major_MG_IB_MRKT_MIS":
+        return all(prereq in taken_courses for prereq in prereqs) and (student_info['Major'] == "International Business" or student_info['Major'] == "Mgmt & Organizational Behavior" or student_info['Major'] == "Marketing" or student_info['Major'] == "Management Information Systems")
     elif condition == "AND":
         return all(prereq in taken_courses for prereq in prereqs)
     elif condition == "AND_NOT_CS":
@@ -102,8 +104,6 @@ def is_eligible_special_ib(course, taken_courses, student_info,prerequisites,con
         return student_info['Student_Level'] == 4 and (student_info['Major'] == "International Business" or student_info['Major'] == "Mgmt & Organizational Behavior")
     elif condition == "Junior_And_Major_IB":
         return student_info['Student_Level'] == 3 and student_info['Major'] == "International Business"
-    elif condition == "Junior_And_Major_MOB":
-        return student_info['Student_Level'] == 3 and student_info['Major'] == "Mgmt & Organizational Behavior"
     elif condition == "Senior":
         return student_info['Student_Level'] == 4
     else:
@@ -119,6 +119,8 @@ def is_eligible_special_mob(course, taken_courses, student_info,prerequisites,co
         return all(prereq in taken_courses for prereq in prereqs) and (student_info['Major'] == "International Business" or student_info['Major'] == "Mgmt & Organizational Behavior")
     elif condition == "AND_Major_MG_IB_MRKT":
         return all(prereq in taken_courses for prereq in prereqs) and (student_info['Major'] == "International Business" or student_info['Major'] == "Mgmt & Organizational Behavior" or student_info['Major'] == "Marketing")
+    elif condition == "AND_Major_MG_IB_MRKT_MIS":
+        return all(prereq in taken_courses for prereq in prereqs) and (student_info['Major'] == "International Business" or student_info['Major'] == "Mgmt & Organizational Behavior" or student_info['Major'] == "Marketing" or student_info['Major'] == "Management Information Systems")
     elif condition == "AND":
         return all(prereq in taken_courses for prereq in prereqs)
     elif condition == "AND_NOT_CS":
@@ -133,8 +135,6 @@ def is_eligible_special_mob(course, taken_courses, student_info,prerequisites,co
         return prereqs and prereqs[0] in taken_courses and any(prereq in taken_courses for prereq in prereqs[1:])
     elif condition == "Senior_And_Major_MG_IB":
         return student_info['Student_Level'] == 4 and (student_info['Major'] == "International Business" or student_info['Major'] == "Mgmt & Organizational Behavior")
-    elif condition == "Junior_And_Major_IB":
-        return student_info['Student_Level'] == 3 and student_info['Major'] == "International Business"
     elif condition == "Junior_And_Major_MOB":
         return student_info['Student_Level'] == 3 and student_info['Major'] == "Mgmt & Organizational Behavior"
     elif condition == "Senior":
@@ -150,6 +150,8 @@ def is_eligible_special_mis(course, taken_courses, student_info,prerequisites,co
         return any(prereq in taken_courses for prereq in prereqs)
     elif condition == "AND":
         return all(prereq in taken_courses for prereq in prereqs)
+    elif condition == "AND_Major_MG_IB_MRKT_MIS":
+        return all(prereq in taken_courses for prereq in prereqs) and (student_info['Major'] == "International Business" or student_info['Major'] == "Mgmt & Organizational Behavior" or student_info['Major'] == "Marketing" or student_info['Major'] == "Management Information Systems")
     elif condition == "AND_NOT_CS":
         return all(prereq in taken_courses for prereq in prereqs) and student_info['Major'] != "Computer Science"
     elif condition == "OR_AND_NOT_CS":
@@ -180,6 +182,8 @@ def is_eligible_special_mrkt(course, taken_courses, student_info,prerequisites,c
         return any(prereq in taken_courses for prereq in prereqs)
     elif condition == "AND_Major_MG_IB_MRKT":
         return all(prereq in taken_courses for prereq in prereqs) and (student_info['Major'] == "International Business" or student_info['Major'] == "Mgmt & Organizational Behavior" or student_info['Major'] == "Marketing")
+    elif condition == "AND_Major_MG_IB_MRKT_MIS":
+        return all(prereq in taken_courses for prereq in prereqs) and (student_info['Major'] == "International Business" or student_info['Major'] == "Mgmt & Organizational Behavior" or student_info['Major'] == "Marketing" or student_info['Major'] == "Management Information Systems")
     elif condition == "AND":
         return all(prereq in taken_courses for prereq in prereqs)
     elif condition == "AND_NOT_CS":
@@ -306,6 +310,8 @@ def is_eligible_special_eng_lin(course, taken_courses, student_info,prerequisite
         return student_info['Student_Level'] == 4 and student_info['Major'] == "Eng- Linguistics - Translation"
     elif condition == "OR_AND_Program_OR":
         return any(prereq in taken_courses for prereq in prereqs) and (student_info['Program'] == "Mass Communication" or student_info['Program'] == "English")
+    elif condition == "Senior_AND_UENG":
+        return student_info['Student_Level'] == 4 and student_info['Program'] == "English"
     else:
         return False
     
@@ -369,6 +375,8 @@ def is_eligible_special_pr(course, taken_courses, student_info,prerequisites,con
         return student_info['Student_Level'] == 3 and student_info['Program'] == "Mass Communication"
     elif condition == "Senior_MCOM":
         return student_info['Student_Level'] == 4 and student_info['Program'] == "Mass Communication"
+    elif condition == "AND_Junior":
+        return student_info['Student_Level'] == 3 and all(prereq in taken_courses for prereq in prereqs)
     elif condition == "AND_Junior_Program":
         return student_info['Student_Level'] == 3 and all(prereq in taken_courses for prereq in prereqs) and student_info['Program'] == "Mass Communication"
     else:
@@ -402,6 +410,8 @@ def is_eligible_special_vc(course, taken_courses, student_info,prerequisites,con
         return any(prereq in taken_courses for prereq in prereqs) and (student_info['Program'] == "Mass Communication" or student_info['Program'] == "English")
     elif condition == "Junior_Program":
         return student_info['Student_Level'] == 3 and student_info['Program'] == "Mass Communication"
+    elif condition == "AND_Junior":
+        return student_info['Student_Level'] == 3 and all(prereq in taken_courses for prereq in prereqs)
     elif condition == "AND_Junior_Program":
         return student_info['Student_Level'] == 3 and all(prereq in taken_courses for prereq in prereqs) and student_info['Program'] == "Mass Communication"
     else:
@@ -564,6 +574,8 @@ def is_eligible_special_ib_(course, taken_courses, student_info,prerequisites,co
         return all(prereq in taken_courses for prereq in prereqs) and (student_info['Major'] == "International Business" or student_info['Major'] == "Mgmt & Organizational Behavior")
     elif condition == "AND_Major_MG_IB_MRKT":
         return all(prereq in taken_courses for prereq in prereqs) and (student_info['Major'] == "International Business" or student_info['Major'] == "Mgmt & Organizational Behavior" or student_info['Major'] == "Marketing")
+    elif condition == "AND_Major_MG_IB_MRKT_MIS":
+        return all(prereq in taken_courses for prereq in prereqs) and (student_info['Major'] == "International Business" or student_info['Major'] == "Mgmt & Organizational Behavior" or student_info['Major'] == "Marketing" or student_info['Major'] == "Management Information Systems")
     elif condition == "AND":
         return all(prereq in taken_courses for prereq in prereqs)
     elif condition == "AND_NOT_CS":
@@ -583,6 +595,8 @@ def is_eligible_special_mob_(course, taken_courses, student_info,prerequisites,c
         return all(prereq in taken_courses for prereq in prereqs) and (student_info['Major'] == "International Business" or student_info['Major'] == "Mgmt & Organizational Behavior")
     elif condition == "AND_Major_MG_IB_MRKT":
         return all(prereq in taken_courses for prereq in prereqs) and (student_info['Major'] == "International Business" or student_info['Major'] == "Mgmt & Organizational Behavior" or student_info['Major'] == "Marketing")
+    elif condition == "AND_Major_MG_IB_MRKT_MIS":
+        return all(prereq in taken_courses for prereq in prereqs) and (student_info['Major'] == "International Business" or student_info['Major'] == "Mgmt & Organizational Behavior" or student_info['Major'] == "Marketing" or student_info['Major'] == "Management Information Systems")
     elif condition == "AND":
         return all(prereq in taken_courses for prereq in prereqs)
     elif condition == "AND_NOT_CS":
@@ -600,6 +614,8 @@ def is_eligible_special_mis_(course, taken_courses, student_info,prerequisites,c
         return any(prereq in taken_courses for prereq in prereqs)
     elif condition == "AND":
         return all(prereq in taken_courses for prereq in prereqs)
+    elif condition == "AND_Major_MG_IB_MRKT_MIS":
+        return all(prereq in taken_courses for prereq in prereqs) and (student_info['Major'] == "International Business" or student_info['Major'] == "Mgmt & Organizational Behavior" or student_info['Major'] == "Marketing" or student_info['Major'] == "Management Information Systems")
     elif condition == "AND_NOT_CS":
         return all(prereq in taken_courses for prereq in prereqs) and student_info['Major'] != "Computer Science"
     elif condition == "OR_AND_NOT_CS":
@@ -617,6 +633,8 @@ def is_eligible_special_mrkt_(course, taken_courses, student_info,prerequisites,
         return any(prereq in taken_courses for prereq in prereqs)
     elif condition == "AND_Major_MG_IB_MRKT":
         return all(prereq in taken_courses for prereq in prereqs) and (student_info['Major'] == "International Business" or student_info['Major'] == "Mgmt & Organizational Behavior" or student_info['Major'] == "Marketing")
+    elif condition == "AND_Major_MG_IB_MRKT_MIS":
+        return all(prereq in taken_courses for prereq in prereqs) and (student_info['Major'] == "International Business" or student_info['Major'] == "Mgmt & Organizational Behavior" or student_info['Major'] == "Marketing" or student_info['Major'] == "Management Information Systems")
     elif condition == "AND":
         return all(prereq in taken_courses for prereq in prereqs)
     elif condition == "AND_NOT_CS":
@@ -752,6 +770,8 @@ def is_eligible_special_pr_(course, taken_courses, student_info,prerequisites,co
         return all(prereq in taken_courses for prereq in prereqs) and student_info['Passed Credits'] >= 60 and student_info['Program'] == "Mass Communication"
     elif condition == "OR_AND_Program_OR":
         return any(prereq in taken_courses for prereq in prereqs) and (student_info['Program'] == "Mass Communication" or student_info['Program'] == "English")
+    elif condition == "AND_Junior":
+        return student_info['Student_Level'] == 3 and all(prereq in taken_courses for prereq in prereqs)
     elif condition == "AND_Junior_Program":
         return student_info['Student_Level'] == 3 and all(prereq in taken_courses for prereq in prereqs) and student_info['Program'] == "Mass Communication"
     else:
@@ -775,6 +795,8 @@ def is_eligible_special_vc_(course, taken_courses, student_info,prerequisites,co
         return all(prereq in taken_courses for prereq in prereqs) and student_info['Passed Credits'] >= 60 and student_info['Program'] == "Mass Communication"
     elif condition == "OR_AND_Program_OR":
         return any(prereq in taken_courses for prereq in prereqs) and (student_info['Program'] == "Mass Communication" or student_info['Program'] == "English")
+    elif condition == "AND_Junior":
+        return student_info['Student_Level'] == 3 and all(prereq in taken_courses for prereq in prereqs)
     elif condition == "AND_Junior_Program":
         return student_info['Student_Level'] == 3 and all(prereq in taken_courses for prereq in prereqs) and student_info['Program'] == "Mass Communication"
     else:
