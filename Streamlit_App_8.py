@@ -945,6 +945,8 @@ def process_data_acc(cba_data, acc_data, major_data):
 
     # Combine Eligible Courses from Both DataFrames
     combined_acc_list = combine_eligible_courses(final_results_df_acc, final_results_special_df_acc)
+    latest_eligible_courses = combined_acc_list.sort_values(by='Semester', ascending=False)
+    latest_eligible_courses = latest_eligible_courses.groupby('Student_ID').first().reset_index()
 
     # Exploding and Mapping Course Details
     combined_df_acc = combined_acc_list.explode("Eligible_Courses")
@@ -968,7 +970,7 @@ def process_data_acc(cba_data, acc_data, major_data):
     recommended_courses_acc = combined_df_acc.groupby(['Student_ID', 'Semester']).apply(lambda group: pd.Series({'Recommended_Courses': find_best_courses_cba(group)})).reset_index()
     combined_df_acc = combined_df_acc.merge(recommended_courses_acc, on=['Student_ID', 'Semester'])
 
-    return combined_df_acc,combined_acc_list,recommended_courses_acc
+    return latest_eligible_courses,combined_df_acc,combined_acc_list,recommended_courses_acc
 
 def process_data_ib(cba_data, ib_data, major_data):
     # Filtering and Sorting Data
@@ -1052,6 +1054,8 @@ def process_data_ib(cba_data, ib_data, major_data):
 
     # Combine Eligible Courses from Both DataFrames
     combined_ib_list = combine_eligible_courses(final_results_df_ib, final_results_special_df_ib)
+    latest_eligible_courses = combined_ib_list.sort_values(by='Semester', ascending=False)
+    latest_eligible_courses = latest_eligible_courses.groupby('Student_ID').first().reset_index()
 
     # Exploding and Mapping Course Details
     combined_df_ib = combined_ib_list.explode("Eligible_Courses")
@@ -1075,7 +1079,7 @@ def process_data_ib(cba_data, ib_data, major_data):
     recommended_courses_ib = combined_df_ib.groupby(['Student_ID', 'Semester']).apply(lambda group: pd.Series({'Recommended_Courses': find_best_courses_cba(group)})).reset_index()
     combined_df_ib = combined_df_ib.merge(recommended_courses_ib, on=['Student_ID', 'Semester'])
 
-    return combined_df_ib,combined_ib_list,recommended_courses_ib
+    return latest_eligible_courses,combined_df_ib,combined_ib_list,recommended_courses_ib
 
 def process_data_mob(cba_data, mob_data, major_data):
     # Filtering and Sorting Data
@@ -1159,6 +1163,8 @@ def process_data_mob(cba_data, mob_data, major_data):
 
     # Combine Eligible Courses from Both DataFrames
     combined_mob_list = combine_eligible_courses(final_results_df_mob, final_results_special_df_mob)
+    latest_eligible_courses = combined_mob_list.sort_values(by='Semester', ascending=False)
+    latest_eligible_courses = latest_eligible_courses.groupby('Student_ID').first().reset_index()
 
     # Exploding and Mapping Course Details
     combined_df_mob = combined_mob_list.explode("Eligible_Courses")
@@ -1182,7 +1188,7 @@ def process_data_mob(cba_data, mob_data, major_data):
     recommended_courses_mob = combined_df_mob.groupby(['Student_ID', 'Semester']).apply(lambda group: pd.Series({'Recommended_Courses': find_best_courses_cba(group)})).reset_index()
     combined_df_mob = combined_df_mob.merge(recommended_courses_mob, on=['Student_ID', 'Semester'])
 
-    return combined_df_mob,combined_mob_list,recommended_courses_mob
+    return latest_eligible_courses,combined_df_mob,combined_mob_list,recommended_courses_mob
 
 def process_data_mis(cba_data, mis_data, major_data):
     # Filtering and Sorting Data
@@ -1266,6 +1272,8 @@ def process_data_mis(cba_data, mis_data, major_data):
 
     # Combine Eligible Courses from Both DataFrames
     combined_mis_list = combine_eligible_courses(final_results_df_mis, final_results_special_df_mis)
+    latest_eligible_courses = combined_mis_list.sort_values(by='Semester', ascending=False)
+    latest_eligible_courses = latest_eligible_courses.groupby('Student_ID').first().reset_index()
 
     # Exploding and Mapping Course Details
     combined_df_mis = combined_mis_list.explode("Eligible_Courses")
@@ -1289,7 +1297,7 @@ def process_data_mis(cba_data, mis_data, major_data):
     recommended_courses_mis = combined_df_mis.groupby(['Student_ID', 'Semester']).apply(lambda group: pd.Series({'Recommended_Courses': find_best_courses_cba(group)})).reset_index()
     combined_df_mis = combined_df_mis.merge(recommended_courses_mis, on=['Student_ID', 'Semester'])
 
-    return combined_df_mis,combined_mis_list,recommended_courses_mis
+    return latest_eligible_courses,combined_df_mis,combined_mis_list,recommended_courses_mis
 
 def process_data_mrkt(cba_data, mrkt_data, major_data):
     # Filtering and Sorting Data
@@ -1373,6 +1381,8 @@ def process_data_mrkt(cba_data, mrkt_data, major_data):
 
     # Combine Eligible Courses from Both DataFrames
     combined_mrkt_list = combine_eligible_courses(final_results_df_mrkt, final_results_special_df_mrkt)
+    latest_eligible_courses = combined_mrkt_list.sort_values(by='Semester', ascending=False)
+    latest_eligible_courses = latest_eligible_courses.groupby('Student_ID').first().reset_index()
 
     # Exploding and Mapping Course Details
     combined_df_mrkt = combined_mrkt_list.explode("Eligible_Courses")
@@ -1396,7 +1406,7 @@ def process_data_mrkt(cba_data, mrkt_data, major_data):
     recommended_courses_mrkt = combined_df_mrkt.groupby(['Student_ID', 'Semester']).apply(lambda group: pd.Series({'Recommended_Courses': find_best_courses_cba(group)})).reset_index()
     combined_df_mrkt = combined_df_mrkt.merge(recommended_courses_mrkt, on=['Student_ID', 'Semester'])
 
-    return combined_df_mrkt,combined_mrkt_list,recommended_courses_mrkt
+    return latest_eligible_courses,combined_df_mrkt,combined_mrkt_list,recommended_courses_mrkt
 
 def process_data_fin(cba_data, fin_data, major_data):
     # Filtering and Sorting Data
@@ -1480,6 +1490,8 @@ def process_data_fin(cba_data, fin_data, major_data):
 
     # Combine Eligible Courses from Both DataFrames
     combined_fin_list = combine_eligible_courses(final_results_df_fin, final_results_special_df_fin)
+    latest_eligible_courses = combined_fin_list.sort_values(by='Semester', ascending=False)
+    latest_eligible_courses = latest_eligible_courses.groupby('Student_ID').first().reset_index()
 
     # Exploding and Mapping Course Details
     combined_df_fin = combined_fin_list.explode("Eligible_Courses")
@@ -1503,7 +1515,7 @@ def process_data_fin(cba_data, fin_data, major_data):
     recommended_courses_fin = combined_df_fin.groupby(['Student_ID', 'Semester']).apply(lambda group: pd.Series({'Recommended_Courses': find_best_courses_cba(group)})).reset_index()
     combined_df_fin = combined_df_fin.merge(recommended_courses_fin, on=['Student_ID', 'Semester'])
 
-    return combined_df_fin,combined_fin_list,recommended_courses_fin
+    return latest_eligible_courses,combined_df_fin,combined_fin_list,recommended_courses_fin
 
 def process_data_cs(cas_data, cs_data, major_data):
     # Filtering and Sorting Data
@@ -1599,6 +1611,8 @@ def process_data_cs(cas_data, cs_data, major_data):
 
     # Find Course Combinations for Co-requisites
     combined_cs_list = combined_cs_list.apply(create_combined_courses, axis=1, co=cs_co)
+    latest_eligible_courses = combined_cs_list.sort_values(by='Semester', ascending=False)
+    latest_eligible_courses = latest_eligible_courses.groupby('Student_ID').first().reset_index()
 
     # Exploding and Mapping Course Details
     combined_df_cs = combined_cs_list.explode("Eligible_Courses_CO")
@@ -1622,7 +1636,7 @@ def process_data_cs(cas_data, cs_data, major_data):
     recommended_courses_cs = combined_df_cs.groupby(['Student_ID', 'Semester']).apply(lambda group: pd.Series({'Recommended_Courses': find_best_courses(group)})).reset_index()
     combined_df_cs = combined_df_cs.merge(recommended_courses_cs, on=['Student_ID', 'Semester'])
 
-    return combined_df_cs,combined_cs_list,recommended_courses_cs
+    return latest_eligible_courses,combined_df_cs,combined_cs_list,recommended_courses_cs
 
 def process_data_dmp(cas_data, dmp_data, major_data):
     # Filtering and Sorting Data
@@ -1715,9 +1729,12 @@ def process_data_dmp(cas_data, dmp_data, major_data):
 
     # Combine Eligible Courses from Both DataFrames
     combined_dmp_list = combine_eligible_courses(final_results_df_dmp, final_results_special_df_dmp)
+    
 
     # Find Course Combinations for Co-requisites
     combined_dmp_list = combined_dmp_list.apply(create_combined_courses, axis=1, co=dmp_co)
+    latest_eligible_courses = combined_dmp_list.sort_values(by='Semester', ascending=False)
+    latest_eligible_courses = latest_eligible_courses.groupby('Student_ID').first().reset_index()
 
     # Exploding and Mapping Course Details
     combined_df_dmp = combined_dmp_list.explode("Eligible_Courses_CO")
@@ -1741,7 +1758,7 @@ def process_data_dmp(cas_data, dmp_data, major_data):
     recommended_courses_dmp = combined_df_dmp.groupby(['Student_ID', 'Semester']).apply(lambda group: pd.Series({'Recommended_Courses': find_best_courses(group)})).reset_index()
     combined_df_dmp = combined_df_dmp.merge(recommended_courses_dmp, on=['Student_ID', 'Semester'])
 
-    return combined_df_dmp,combined_dmp_list,recommended_courses_dmp
+    return latest_eligible_courses,combined_df_dmp,combined_dmp_list,recommended_courses_dmp
 
 def process_data_eng_lin(cas_data, eng_lin_data, major_data):
     # Filtering and Sorting Data
@@ -1837,6 +1854,8 @@ def process_data_eng_lin(cas_data, eng_lin_data, major_data):
 
     # Find Course Combinations for Co-requisites
     combined_eng_lin_list = combined_eng_lin_list.apply(create_combined_courses, axis=1, co=eng_lin_co)
+    latest_eligible_courses = combined_eng_lin_list.sort_values(by='Semester', ascending=False)
+    latest_eligible_courses = latest_eligible_courses.groupby('Student_ID').first().reset_index()
 
     # Exploding and Mapping Course Details
     combined_df_eng_lin = combined_eng_lin_list.explode("Eligible_Courses_CO")
@@ -1862,7 +1881,7 @@ def process_data_eng_lin(cas_data, eng_lin_data, major_data):
     recommended_courses_eng_lin = combined_df_eng_lin.groupby(['Student_ID', 'Semester']).apply(lambda group: pd.Series({'Recommended_Courses': find_best_courses(group)})).reset_index()
     combined_df_eng_lin = combined_df_eng_lin.merge(recommended_courses_eng_lin, on=['Student_ID', 'Semester'])
 
-    return combined_df_eng_lin,combined_eng_lin_list,recommended_courses_eng_lin
+    return latest_eligible_courses,combined_df_eng_lin,combined_eng_lin_list,recommended_courses_eng_lin
 
 def process_data_eng_edu(cas_data, eng_edu_data, major_data):
     # Filtering and Sorting Data
@@ -1958,6 +1977,8 @@ def process_data_eng_edu(cas_data, eng_edu_data, major_data):
 
     # Find Course Combinations for Co-requisites
     combined_eng_edu_list = combined_eng_edu_list.apply(create_combined_courses, axis=1, co=eng_edu_co)
+    latest_eligible_courses = combined_eng_edu_list.sort_values(by='Semester', ascending=False)
+    latest_eligible_courses = latest_eligible_courses.groupby('Student_ID').first().reset_index()
 
     # Exploding and Mapping Course Details
     combined_df_eng_edu = combined_eng_edu_list.explode("Eligible_Courses_CO")
@@ -1981,7 +2002,7 @@ def process_data_eng_edu(cas_data, eng_edu_data, major_data):
     recommended_courses_eng_edu = combined_df_eng_edu.groupby(['Student_ID', 'Semester']).apply(lambda group: pd.Series({'Recommended_Courses': find_best_courses(group)})).reset_index()
     combined_df_eng_edu = combined_df_eng_edu.merge(recommended_courses_eng_edu, on=['Student_ID', 'Semester'])
 
-    return combined_df_eng_edu,combined_eng_edu_list,recommended_courses_eng_edu
+    return latest_eligible_courses,combined_df_eng_edu,combined_eng_edu_list,recommended_courses_eng_edu
 
 def process_data_eng_lit(cas_data, eng_lit_data, major_data):
     # Filtering and Sorting Data
@@ -2077,6 +2098,8 @@ def process_data_eng_lit(cas_data, eng_lit_data, major_data):
 
     # Find Course Combinations for Co-requisites
     combined_eng_lit_list = combined_eng_lit_list.apply(create_combined_courses, axis=1, co=eng_lit_co)
+    latest_eligible_courses = combined_eng_lit_list.sort_values(by='Semester', ascending=False)
+    latest_eligible_courses = latest_eligible_courses.groupby('Student_ID').first().reset_index()
 
     # Exploding and Mapping Course Details
     combined_df_eng_lit = combined_eng_lit_list.explode("Eligible_Courses_CO")
@@ -2100,7 +2123,7 @@ def process_data_eng_lit(cas_data, eng_lit_data, major_data):
     recommended_courses_eng_lit = combined_df_eng_lit.groupby(['Student_ID', 'Semester']).apply(lambda group: pd.Series({'Recommended_Courses': find_best_courses(group)})).reset_index()
     combined_df_eng_lit = combined_df_eng_lit.merge(recommended_courses_eng_lit, on=['Student_ID', 'Semester'])
 
-    return combined_df_eng_lit,combined_eng_lit_list,recommended_courses_eng_lit
+    return latest_eligible_courses,combined_df_eng_lit,combined_eng_lit_list,recommended_courses_eng_lit
 
 def process_data_pr(cas_data, pr_data, major_data):
     # Filtering and Sorting Data
@@ -2196,6 +2219,8 @@ def process_data_pr(cas_data, pr_data, major_data):
 
     # Find Course Combinations for Co-requisites
     combined_pr_list = combined_pr_list.apply(create_combined_courses, axis=1, co=pr_co)
+    latest_eligible_courses = combined_pr_list.sort_values(by='Semester', ascending=False)
+    latest_eligible_courses = latest_eligible_courses.groupby('Student_ID').first().reset_index()
 
     # Exploding and Mapping Course Details
     combined_df_pr = combined_pr_list.explode("Eligible_Courses_CO")
@@ -2219,7 +2244,7 @@ def process_data_pr(cas_data, pr_data, major_data):
     recommended_courses_pr = combined_df_pr.groupby(['Student_ID', 'Semester']).apply(lambda group: pd.Series({'Recommended_Courses': find_best_courses(group)})).reset_index()
     combined_df_pr = combined_df_pr.merge(recommended_courses_pr, on=['Student_ID', 'Semester'])
 
-    return combined_df_pr,combined_pr_list,recommended_courses_pr
+    return latest_eligible_courses,combined_df_pr,combined_pr_list,recommended_courses_pr
 
 def process_data_vc(cas_data, vc_data, major_data):
     # Filtering and Sorting Data
@@ -2315,6 +2340,8 @@ def process_data_vc(cas_data, vc_data, major_data):
 
     # Find Course Combinations for Co-requisites
     combined_vc_list = combined_vc_list.apply(create_combined_courses, axis=1, co=vc_co)
+    latest_eligible_courses = combined_vc_list.sort_values(by='Semester', ascending=False)
+    latest_eligible_courses = latest_eligible_courses.groupby('Student_ID').first().reset_index()
 
     # Exploding and Mapping Course Details
     combined_df_vc = combined_vc_list.explode("Eligible_Courses_CO")
@@ -2338,7 +2365,7 @@ def process_data_vc(cas_data, vc_data, major_data):
     recommended_courses_vc = combined_df_vc.groupby(['Student_ID', 'Semester']).apply(lambda group: pd.Series({'Recommended_Courses': find_best_courses(group)})).reset_index()
     combined_df_vc = combined_df_vc.merge(recommended_courses_vc, on=['Student_ID', 'Semester'])
 
-    return combined_df_vc,combined_vc_list,recommended_courses_vc
+    return latest_eligible_courses,combined_df_vc,combined_vc_list,recommended_courses_vc
 
 def process_data_mgmt(cea_data, mgmt_data, major_data):
     # Filtering and Sorting Data
@@ -2434,6 +2461,8 @@ def process_data_mgmt(cea_data, mgmt_data, major_data):
 
     # Find Course Combinations for Co-requisites
     combined_mgmt_list = combined_mgmt_list.apply(create_combined_courses, axis=1, co=mgmt_co)
+    latest_eligible_courses = combined_mgmt_list.sort_values(by='Semester', ascending=False)
+    latest_eligible_courses = latest_eligible_courses.groupby('Student_ID').first().reset_index()
 
     # Exploding and Mapping Course Details
     combined_df_mgmt = combined_mgmt_list.explode("Eligible_Courses_CO")
@@ -2457,7 +2486,7 @@ def process_data_mgmt(cea_data, mgmt_data, major_data):
     recommended_courses_mgmt = combined_df_mgmt.groupby(['Student_ID', 'Semester']).apply(lambda group: pd.Series({'Recommended_Courses': find_best_courses(group)})).reset_index()
     combined_df_mgmt = combined_df_mgmt.merge(recommended_courses_mgmt, on=['Student_ID', 'Semester'])
 
-    return combined_df_mgmt,combined_mgmt_list,recommended_courses_mgmt
+    return latest_eligible_courses,combined_df_mgmt,combined_mgmt_list,recommended_courses_mgmt
 
 def process_data_elec(cea_data, elec_data, major_data):
     # Filtering and Sorting Data
@@ -2553,6 +2582,8 @@ def process_data_elec(cea_data, elec_data, major_data):
 
     # Find Course Combinations for Co-requisites
     combined_elec_list = combined_elec_list.apply(create_combined_courses, axis=1, co=elec_co)
+    latest_eligible_courses = combined_elec_list.sort_values(by='Semester', ascending=False)
+    latest_eligible_courses = latest_eligible_courses.groupby('Student_ID').first().reset_index()
 
     # Exploding and Mapping Course Details
     combined_df_elec = combined_elec_list.explode("Eligible_Courses_CO")
@@ -2576,7 +2607,7 @@ def process_data_elec(cea_data, elec_data, major_data):
     recommended_courses_elec = combined_df_elec.groupby(['Student_ID', 'Semester']).apply(lambda group: pd.Series({'Recommended_Courses': find_best_courses(group)})).reset_index()
     combined_df_elec = combined_df_elec.merge(recommended_courses_elec, on=['Student_ID', 'Semester'])
 
-    return combined_df_elec,combined_elec_list,recommended_courses_elec
+    return latest_eligible_courses,combined_df_elec,combined_elec_list,recommended_courses_elec
 
 def process_data_comp(cea_data, comp_data, major_data):
     # Filtering and Sorting Data
@@ -2672,6 +2703,8 @@ def process_data_comp(cea_data, comp_data, major_data):
 
     # Find Course Combinations for Co-requisites
     combined_comp_list = combined_comp_list.apply(create_combined_courses, axis=1, co=comp_co)
+    latest_eligible_courses = combined_comp_list.sort_values(by='Semester', ascending=False)
+    latest_eligible_courses = latest_eligible_courses.groupby('Student_ID').first().reset_index()
 
     # Exploding and Mapping Course Details
     combined_df_comp = combined_comp_list.explode("Eligible_Courses_CO")
@@ -2695,7 +2728,7 @@ def process_data_comp(cea_data, comp_data, major_data):
     recommended_courses_comp = combined_df_comp.groupby(['Student_ID', 'Semester']).apply(lambda group: pd.Series({'Recommended_Courses': find_best_courses(group)})).reset_index()
     combined_df_comp = combined_df_comp.merge(recommended_courses_comp, on=['Student_ID', 'Semester'])
 
-    return combined_df_comp,combined_comp_list,recommended_courses_comp
+    return latest_eligible_courses,combined_df_comp,combined_comp_list,recommended_courses_comp
 
 major_processing_functions = {
     "Accounting": process_data_acc,
@@ -2735,6 +2768,7 @@ if navigation == "User Guide":
             2. **Download Sample Data**: Download sample student data to understand the format.
             3. **Upload Student Data**: Upload the student data in CSV format.
             4. **View and Download Data**: Select which Data to view and download the data if needed.
+                - Latest Eligible Courses
                 - Eligible Courses
                 - Recommended Courses
                 - Combined Data
@@ -2749,6 +2783,7 @@ if navigation == "User Guide":
             2. **Enter Student Information**: For each semester, enter student ID, semester, college, passed credits, student level, program, major, and course IDs.
             3. **Process Data**: Click the "Process Manual Input Data" button.
             4. **View and Download Data**: Select which Data to view and download the data if needed.
+                - Latest Eligible Courses
                 - Eligible Courses
                 - Recommended Courses
                 - Combined Data
@@ -2817,12 +2852,13 @@ elif navigation == "Course Eligibility and Recommendation System":
                 if missing_majors:
                     st.error(f"The selected majors are not present in the loaded data: {missing_majors}")
                 else:
-                    section = st.selectbox("Select Data to Display", ["None", "Eligible Courses", "Recommended Courses", "Combined Data"])
+                    section = st.selectbox("Select Data to Display", ["None","- Latest Eligible Courses","Eligible Courses", "Recommended Courses", "Combined Data"])
 
                     if section != "None":
                         combined_df_list = []
                         combined_list_list = []
                         recommended_courses_list = []
+                        latest_eligible_courses_list = []
 
                         for major in selected_major:
                             st.write(f"Processing data for major: {major}")
@@ -2832,11 +2868,12 @@ elif navigation == "Course Eligibility and Recommendation System":
 
                             if process_function:
                                 with st.spinner(f"Processing data for major: {major}..."):
-                                    combined_df, combined_list, recommended_courses = process_function(major_data_subset, major_data_subset, major_data)
+                                    latest_eligible_courses,combined_df, combined_list, recommended_courses = process_function(major_data_subset, major_data_subset, major_data)
 
                                 combined_df_list.append(combined_df)
                                 combined_list_list.append(combined_list)
                                 recommended_courses_list.append(recommended_courses)
+                                latest_eligible_courses_list.append(latest_eligible_courses)
                             else:
                                 st.error(f"No processing function found for major: {major}")
 
@@ -2845,6 +2882,7 @@ elif navigation == "Course Eligibility and Recommendation System":
                             combined_df = pd.concat(combined_df_list, ignore_index=True)
                             combined_list = pd.concat(combined_list_list, ignore_index=True)
                             recommended_courses = pd.concat(recommended_courses_list, ignore_index=True)
+                            latest_eligible_courses = pd.concat(latest_eligible_courses_list,ignore_index=True)
 
                             st.success("Data processed successfully for all majors!")
 
@@ -2859,6 +2897,19 @@ elif navigation == "Course Eligibility and Recommendation System":
                                     label="Download Eligible Courses data as CSV",
                                     data=csv,
                                     file_name='combined_list.csv',
+                                    mime='text/csv',
+                                )
+                            elif section == "Latest Eligible Courses":
+                                st.header("Latest Eligible Coursess Data")
+                                st.dataframe(latest_eligible_courses)
+
+                                # Download the DataFrame as CSV
+                                st.header("Download Latest Eligible Courses Data")
+                                csv = latest_eligible_courses.to_csv(index=False)
+                                st.download_button(
+                                    label="Download Latest Eligible Courses data as CSV",
+                                    data=csv,
+                                    file_name='latest_eligible_courses.csv',
                                     mime='text/csv',
                                 )
                             elif section == "Recommended Courses":
@@ -3021,7 +3072,7 @@ if navigation == "Quick Check":
                     recommended_courses = pd.concat(recommended_courses_list, ignore_index=True)
 
                     st.success("Data processed successfully!")
-                    section = st.selectbox("Select Data to Display", ["None", "Eligible Courses", "Recommended Courses", "Combined Data"])
+                    section = st.selectbox("Select Data to Display", ["None","Latest Eligible Courses","Eligible Courses", "Recommended Courses", "Combined Data"])
 
                     if section == "None":
                         st.warning("Please Choose the required Data!")
@@ -3037,6 +3088,16 @@ if navigation == "Quick Check":
                             data=csv,
                             file_name='combined_list.csv',
                             mime='text/csv'
+                        )
+                    elif section == "Latest Eligible Courses":
+                        st.header("Latest Eligible Courses")
+                        st.dataframe(latest_eligible_courses)
+                        csv = latest_eligible_courses.to_csv(index=False)
+                        st.download_button(
+                            label="Download Latest Eligible Courses data as CSV",
+                            data=csv,
+                            file_name='latest_eligible_courses.csv',
+                            mime='text/csv',
                         )
                     elif section == "Recommended Courses":
                         st.header("Recommended Courses Data")
