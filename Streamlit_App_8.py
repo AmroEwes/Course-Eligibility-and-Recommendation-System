@@ -2852,7 +2852,7 @@ elif navigation == "Course Eligibility and Recommendation System":
                 if missing_majors:
                     st.error(f"The selected majors are not present in the loaded data: {missing_majors}")
                 else:
-                    section = st.selectbox("Select Data to Display", ["None","- Latest Eligible Courses","Eligible Courses", "Recommended Courses", "Combined Data"])
+                    section = st.selectbox("Select Data to Display", ["None","Latest Eligible Courses","Eligible Courses", "Recommended Courses", "Combined Data"])
 
                     if section != "None":
                         combined_df_list = []
