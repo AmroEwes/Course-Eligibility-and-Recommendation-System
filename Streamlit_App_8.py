@@ -3062,7 +3062,7 @@ if navigation == "Quick Check":
                 process_function = major_processing_functions.get(major)
                 if process_function:
                     major_data_ = combined_data[combined_data['Major'] == major]
-                    combined_df, combined_list, recommended_courses = process_function(major_data_, major_data_, major_data)
+                    latest_eligible_courses,combined_df, combined_list, recommended_courses = process_function(major_data_, major_data_, major_data)
                     combined_df_list.append(combined_df)
                     combined_list_list.append(combined_list)
                     recommended_courses_list.append(recommended_courses)
