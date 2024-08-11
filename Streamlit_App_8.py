@@ -2852,7 +2852,7 @@ elif navigation == "Course Eligibility and Recommendation System":
                 if missing_majors:
                     st.error(f"The selected majors are not present in the loaded data: {missing_majors}")
                 else:
-                    section = st.selectbox("Select Data to Display", ["None","Latest Eligible Courses","Eligible Courses", "Recommended Courses", "Combined Data"])
+                    section = st.selectbox("Select Data to Display", ["None","Latest Eligible Courses","Eligible Courses", "Recommended Courses", "Comprehensive Data"])
 
                     if section != "None":
                         combined_df_list = []
@@ -2925,17 +2925,17 @@ elif navigation == "Course Eligibility and Recommendation System":
                                     file_name='recommended_courses.csv',
                                     mime='text/csv',
                                 )
-                            elif section == "Combined Data":
-                                st.header("Combined Data")
+                            elif section == "Comprehensive Data":
+                                st.header("Comprehensive Data")
                                 st.dataframe(combined_df)
 
                                 # Download the DataFrame as CSV
-                                st.header("Download Combined Data")
+                                st.header("Download Comprehensive Data")
                                 csv = combined_df.to_csv(index=False)
                                 st.download_button(
                                     label="Download data as CSV",
                                     data=csv,
-                                    file_name='combined_df.csv',
+                                    file_name='Comprehensive_df.csv',
                                     mime='text/csv',
                                 )
                     else:
@@ -3076,7 +3076,7 @@ if navigation == "Quick Check":
                 else:
                     st.error(f"No processing function found for major: {major}")
             st.success("Data processed successfully!")
-            section = st.selectbox("Select Data to Display", ["None","Latest Eligible Courses","Eligible Courses", "Recommended Courses", "Combined Data"])
+            section = st.selectbox("Select Data to Display", ["None","Latest Eligible Courses","Eligible Courses", "Recommended Courses", "Comprehensive Data"])
 
             if section == "None":
                 st.warning("Please Choose the required Data!")
@@ -3116,17 +3116,17 @@ if navigation == "Quick Check":
                     file_name='recommended_courses.csv',
                     mime='text/csv',
                 )
-            elif section == "Combined Data":
-                st.header("Combined Data")
+            elif section == "Comprehensive Data":
+                st.header("Comprehensive Data")
                 st.dataframe(combined_df)
                 
                 # Download the DataFrame as CSV
-                st.header("Download Combined Data")
+                st.header("Download Comprehensive Data")
                 csv = combined_df.to_csv(index=False)
                 st.download_button(
                     label="Download data as CSV",
                     data=csv,
-                    file_name='combined_df.csv',
+                    file_name='Comprehensive_df.csv',
                     mime='text/csv',
                 )
         else:
