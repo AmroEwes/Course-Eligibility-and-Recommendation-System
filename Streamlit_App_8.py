@@ -3048,6 +3048,7 @@ if navigation == "Quick Check":
             combined_df_list = []
             combined_list_list = []
             recommended_courses_list = []
+            latest_eligible_courses_list = []
 
             # Combine all student info into a single DataFrame
             combined_data = pd.DataFrame(student_info_list)
