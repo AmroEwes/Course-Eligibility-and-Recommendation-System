@@ -3066,10 +3066,12 @@ if navigation == "Quick Check":
                     combined_df_list.append(combined_df)
                     combined_list_list.append(combined_list)
                     recommended_courses_list.append(recommended_courses)
+                    latest_eligible_courses_list.append(latest_eligible_courses)
                     # Combine the processed dataframes for different majors
                     combined_df = pd.concat(combined_df_list, ignore_index=True)
                     combined_list = pd.concat(combined_list_list, ignore_index=True)
                     recommended_courses = pd.concat(recommended_courses_list, ignore_index=True)
+                    latest_eligible_courses = pd.concat(latest_eligible_courses_list,ignore_index=True)
 
                     st.success("Data processed successfully!")
                     section = st.selectbox("Select Data to Display", ["None","Latest Eligible Courses","Eligible Courses", "Recommended Courses", "Combined Data"])
