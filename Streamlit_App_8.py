@@ -3075,7 +3075,7 @@ if navigation == "Quick Check":
                     latest_eligible_courses = pd.concat(latest_eligible_courses_list,ignore_index=True)
 
                     st.success("Data processed successfully!")
-                    section = st.selectbox("Select Data to Display", ["None","Latest Eligible Courses","Eligible Courses", "Recommended Courses", "Combined Data"])
+                    section = st.selectbox("Select Data to Display", ["None","Latest Eligible Courses","Eligible Courses", "Recommended Courses", "Combined Data"],key="selectbox_section")
 
                     if section == "None":
                         st.warning("Please Choose the required Data!")
