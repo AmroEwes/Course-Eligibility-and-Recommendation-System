@@ -3073,62 +3073,61 @@ if navigation == "Quick Check":
                     combined_list = pd.concat(combined_list_list, ignore_index=True)
                     recommended_courses = pd.concat(recommended_courses_list, ignore_index=True)
                     latest_eligible_courses = pd.concat(latest_eligible_courses_list,ignore_index=True)
-
-                    st.success("Data processed successfully!")
-                    section = st.selectbox("Select Data to Display", ["None","Latest Eligible Courses","Eligible Courses", "Recommended Courses", "Combined Data"],key="selectbox_section")
-
-                    if section == "None":
-                        st.warning("Please Choose the required Data!")
-                    elif section == "Eligible Courses":
-                        st.header("Eligible Courses Data")
-                        st.dataframe(combined_list)
-                        
-                        # Download the DataFrame as CSV
-                        st.header("Download Eligible Courses Data")
-                        csv = combined_list.to_csv(index=False)
-                        st.download_button(
-                            label="Download Eligible Courses data as CSV",
-                            data=csv,
-                            file_name='combined_list.csv',
-                            mime='text/csv'
-                        )
-                    elif section == "Latest Eligible Courses":
-                        st.header("Latest Eligible Courses")
-                        st.dataframe(latest_eligible_courses)
-                        csv = latest_eligible_courses.to_csv(index=False)
-                        st.download_button(
-                            label="Download Latest Eligible Courses data as CSV",
-                            data=csv,
-                            file_name='latest_eligible_courses.csv',
-                            mime='text/csv',
-                        )
-                    elif section == "Recommended Courses":
-                        st.header("Recommended Courses Data")
-                        st.dataframe(recommended_courses)
-                        
-                        # Download the DataFrame as CSV
-                        st.header("Download Recommended Courses Data")
-                        csv = recommended_courses.to_csv(index=False)
-                        st.download_button(
-                            label="Download recommended courses data as CSV",
-                            data=csv,
-                            file_name='recommended_courses.csv',
-                            mime='text/csv',
-                        )
-                    elif section == "Combined Data":
-                        st.header("Combined Data")
-                        st.dataframe(combined_df)
-                        
-                        # Download the DataFrame as CSV
-                        st.header("Download Combined Data")
-                        csv = combined_df.to_csv(index=False)
-                        st.download_button(
-                            label="Download data as CSV",
-                            data=csv,
-                            file_name='combined_df.csv',
-                            mime='text/csv',
-                        )
                 else:
                     st.error(f"No processing function found for major: {major}")
+            st.success("Data processed successfully!")
+            section = st.selectbox("Select Data to Display", ["None","Latest Eligible Courses","Eligible Courses", "Recommended Courses", "Combined Data"])
+
+            if section == "None":
+                st.warning("Please Choose the required Data!")
+            elif section == "Eligible Courses":
+                st.header("Eligible Courses Data")
+                st.dataframe(combined_list)
+                
+                # Download the DataFrame as CSV
+                st.header("Download Eligible Courses Data")
+                csv = combined_list.to_csv(index=False)
+                st.download_button(
+                    label="Download Eligible Courses data as CSV",
+                    data=csv,
+                    file_name='combined_list.csv',
+                    mime='text/csv'
+                )
+            elif section == "Latest Eligible Courses":
+                st.header("Latest Eligible Courses")
+                st.dataframe(latest_eligible_courses)
+                csv = latest_eligible_courses.to_csv(index=False)
+                st.download_button(
+                    label="Download Latest Eligible Courses data as CSV",
+                    data=csv,
+                    file_name='latest_eligible_courses.csv',
+                    mime='text/csv',
+                )
+            elif section == "Recommended Courses":
+                st.header("Recommended Courses Data")
+                st.dataframe(recommended_courses)
+                
+                # Download the DataFrame as CSV
+                st.header("Download Recommended Courses Data")
+                csv = recommended_courses.to_csv(index=False)
+                st.download_button(
+                    label="Download recommended courses data as CSV",
+                    data=csv,
+                    file_name='recommended_courses.csv',
+                    mime='text/csv',
+                )
+            elif section == "Combined Data":
+                st.header("Combined Data")
+                st.dataframe(combined_df)
+                
+                # Download the DataFrame as CSV
+                st.header("Download Combined Data")
+                csv = combined_df.to_csv(index=False)
+                st.download_button(
+                    label="Download data as CSV",
+                    data=csv,
+                    file_name='combined_df.csv',
+                    mime='text/csv',
+                )
         else:
             st.error("Please fill in all required fields correctly before processing.")
