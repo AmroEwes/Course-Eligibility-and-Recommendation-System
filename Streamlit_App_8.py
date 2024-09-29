@@ -956,10 +956,21 @@ def process_data_acc(cba_data, acc_data, major_data):
 
     # Find Additional Eligibilities
     combined_df_acc['Future_Eligible_Courses_List'] = combined_df_acc.apply(lambda row: find_additional_eligibilities(row['Eligible_Courses'], set(row['Eligible_Courses']), prerequisites_acc), axis=1)
+    # Step 1: Aggregate all eligible courses into a list for each student, flattening and deduplicating
+    eligible_courses_per_student = combined_df_acc.groupby('Student_ID')['Eligible_Courses'].agg(lambda x: list(set([item for sublist in x for item in sublist if isinstance(sublist, list)]))).reset_index()
+    # Step 2: Merge this aggregated list back into the combined_df_acc DataFrame
+    combined_df_acc = combined_df_acc.merge(eligible_courses_per_student.rename(columns={'Eligible_Courses': 'Eligible_Courses_List_All'}), 
+                                            on='Student_ID', 
+                                            how='left')
+    # Step 3: Filter out matching courses from 'Future_Eligible_Courses_List' and 'Future_Eligible_Courses_List_Special'
+    combined_df_acc['Future_Eligible_Courses_List'] = combined_df_acc.apply(
+    lambda row: [course for course in row['Future_Eligible_Courses_List'] if course not in row['Eligible_Courses_List_All']], axis=1)
     combined_df_acc['Total_Future_Eligible_Courses'] = combined_df_acc['Future_Eligible_Courses_List'].apply(len)   
 
     combined_df_acc['Future_Eligible_Courses_List_Special'] = combined_df_acc.apply(
     lambda row: find_additional_eligibilities_special(row['Eligible_Courses'], set(row['Eligible_Courses']), row, prerequisites_special_acc, conditions_acc, is_eligible_special_acc_), axis=1)
+    combined_df_acc['Future_Eligible_Courses_List_Special'] = combined_df_acc.apply(
+    lambda row: [course for course in row['Future_Eligible_Courses_List_Special'] if course not in row['Eligible_Courses_List_All']], axis=1)
     combined_df_acc['Total_Future_Eligible_Courses_Special'] = combined_df_acc['Future_Eligible_Courses_List_Special'].apply(len)
 
     # Combine Future Eligible Courses
@@ -1065,10 +1076,21 @@ def process_data_ib(cba_data, ib_data, major_data):
 
     # Find Additional Eligibilities
     combined_df_ib['Future_Eligible_Courses_List'] = combined_df_ib.apply(lambda row: find_additional_eligibilities(row['Eligible_Courses'], set(row['Eligible_Courses']), prerequisites_ib), axis=1)
-    combined_df_ib['Total_Future_Eligible_Courses'] = combined_df_ib['Future_Eligible_Courses_List'].apply(len)
+    # Step 1: Aggregate all eligible courses into a list for each student, flattening and deduplicating
+    eligible_courses_per_student = combined_df_ib.groupby('Student_ID')['Eligible_Courses'].agg(lambda x: list(set([item for sublist in x for item in sublist if isinstance(sublist, list)]))).reset_index()
+    # Step 2: Merge this aggregated list back into the combined_df_ib DataFrame
+    combined_df_ib = combined_df_ib.merge(eligible_courses_per_student.rename(columns={'Eligible_Courses': 'Eligible_Courses_List_All'}), 
+                                            on='Student_ID', 
+                                            how='left')
+    # Step 3: Filter out matching courses from 'Future_Eligible_Courses_List' and 'Future_Eligible_Courses_List_Special'
+    combined_df_ib['Future_Eligible_Courses_List'] = combined_df_ib.apply(
+    lambda row: [course for course in row['Future_Eligible_Courses_List'] if course not in row['Eligible_Courses_List_All']], axis=1)
+    combined_df_ib['Total_Future_Eligible_Courses'] = combined_df_ib['Future_Eligible_Courses_List'].apply(len)   
 
-    # Special Additional Eligibilities
-    combined_df_ib['Future_Eligible_Courses_List_Special'] = combined_df_ib.apply(lambda row: find_additional_eligibilities_special(row['Eligible_Courses'], set(row['Eligible_Courses']), row, prerequisites_special_ib, conditions_ib, is_eligible_special_ib_), axis=1)
+    combined_df_ib['Future_Eligible_Courses_List_Special'] = combined_df_ib.apply(
+    lambda row: find_additional_eligibilities_special(row['Eligible_Courses'], set(row['Eligible_Courses']), row, prerequisites_special_ib, conditions_ib, is_eligible_special_ib_), axis=1)
+    combined_df_ib['Future_Eligible_Courses_List_Special'] = combined_df_ib.apply(
+    lambda row: [course for course in row['Future_Eligible_Courses_List_Special'] if course not in row['Eligible_Courses_List_All']], axis=1)
     combined_df_ib['Total_Future_Eligible_Courses_Special'] = combined_df_ib['Future_Eligible_Courses_List_Special'].apply(len)
 
     # Combine Future Eligible Courses
@@ -1174,10 +1196,21 @@ def process_data_mob(cba_data, mob_data, major_data):
 
     # Find Additional Eligibilities
     combined_df_mob['Future_Eligible_Courses_List'] = combined_df_mob.apply(lambda row: find_additional_eligibilities(row['Eligible_Courses'], set(row['Eligible_Courses']), prerequisites_mob), axis=1)
-    combined_df_mob['Total_Future_Eligible_Courses'] = combined_df_mob['Future_Eligible_Courses_List'].apply(len)
+    # Step 1: Aggregate all eligible courses into a list for each student, flattening and deduplicating
+    eligible_courses_per_student = combined_df_mob.groupby('Student_ID')['Eligible_Courses'].agg(lambda x: list(set([item for sublist in x for item in sublist if isinstance(sublist, list)]))).reset_index()
+    # Step 2: Merge this aggregated list back into the combined_df_mob DataFrame
+    combined_df_mob = combined_df_mob.merge(eligible_courses_per_student.rename(columns={'Eligible_Courses': 'Eligible_Courses_List_All'}), 
+                                            on='Student_ID', 
+                                            how='left')
+    # Step 3: Filter out matching courses from 'Future_Eligible_Courses_List' and 'Future_Eligible_Courses_List_Special'
+    combined_df_mob['Future_Eligible_Courses_List'] = combined_df_mob.apply(
+    lambda row: [course for course in row['Future_Eligible_Courses_List'] if course not in row['Eligible_Courses_List_All']], axis=1)
+    combined_df_mob['Total_Future_Eligible_Courses'] = combined_df_mob['Future_Eligible_Courses_List'].apply(len)   
 
-    # Special Additional Eligibilities
-    combined_df_mob['Future_Eligible_Courses_List_Special'] = combined_df_mob.apply(lambda row: find_additional_eligibilities_special(row['Eligible_Courses'], set(row['Eligible_Courses']), row, prerequisites_special_mob, conditions_mob, is_eligible_special_mob_), axis=1)
+    combined_df_mob['Future_Eligible_Courses_List_Special'] = combined_df_mob.apply(
+    lambda row: find_additional_eligibilities_special(row['Eligible_Courses'], set(row['Eligible_Courses']), row, prerequisites_special_mob, conditions_mob, is_eligible_special_mob_), axis=1)
+    combined_df_mob['Future_Eligible_Courses_List_Special'] = combined_df_mob.apply(
+    lambda row: [course for course in row['Future_Eligible_Courses_List_Special'] if course not in row['Eligible_Courses_List_All']], axis=1)
     combined_df_mob['Total_Future_Eligible_Courses_Special'] = combined_df_mob['Future_Eligible_Courses_List_Special'].apply(len)
 
     # Combine Future Eligible Courses
@@ -1283,10 +1316,21 @@ def process_data_mis(cba_data, mis_data, major_data):
 
     # Find Additional Eligibilities
     combined_df_mis['Future_Eligible_Courses_List'] = combined_df_mis.apply(lambda row: find_additional_eligibilities(row['Eligible_Courses'], set(row['Eligible_Courses']), prerequisites_mis), axis=1)
-    combined_df_mis['Total_Future_Eligible_Courses'] = combined_df_mis['Future_Eligible_Courses_List'].apply(len)
+    # Step 1: Aggregate all eligible courses into a list for each student, flattening and deduplicating
+    eligible_courses_per_student = combined_df_mis.groupby('Student_ID')['Eligible_Courses'].agg(lambda x: list(set([item for sublist in x for item in sublist if isinstance(sublist, list)]))).reset_index()
+    # Step 2: Merge this aggregated list back into the combined_df_mis DataFrame
+    combined_df_mis = combined_df_mis.merge(eligible_courses_per_student.rename(columns={'Eligible_Courses': 'Eligible_Courses_List_All'}), 
+                                            on='Student_ID', 
+                                            how='left')
+    # Step 3: Filter out matching courses from 'Future_Eligible_Courses_List' and 'Future_Eligible_Courses_List_Special'
+    combined_df_mis['Future_Eligible_Courses_List'] = combined_df_mis.apply(
+    lambda row: [course for course in row['Future_Eligible_Courses_List'] if course not in row['Eligible_Courses_List_All']], axis=1)
+    combined_df_mis['Total_Future_Eligible_Courses'] = combined_df_mis['Future_Eligible_Courses_List'].apply(len)   
 
-    # Special Additional Eligibilities
-    combined_df_mis['Future_Eligible_Courses_List_Special'] = combined_df_mis.apply(lambda row: find_additional_eligibilities_special(row['Eligible_Courses'], set(row['Eligible_Courses']), row, prerequisites_special_mis, conditions_mis, is_eligible_special_mis_), axis=1)
+    combined_df_mis['Future_Eligible_Courses_List_Special'] = combined_df_mis.apply(
+    lambda row: find_additional_eligibilities_special(row['Eligible_Courses'], set(row['Eligible_Courses']), row, prerequisites_special_mis, conditions_mis, is_eligible_special_mis_), axis=1)
+    combined_df_mis['Future_Eligible_Courses_List_Special'] = combined_df_mis.apply(
+    lambda row: [course for course in row['Future_Eligible_Courses_List_Special'] if course not in row['Eligible_Courses_List_All']], axis=1)
     combined_df_mis['Total_Future_Eligible_Courses_Special'] = combined_df_mis['Future_Eligible_Courses_List_Special'].apply(len)
 
     # Combine Future Eligible Courses
@@ -1392,10 +1436,21 @@ def process_data_mrkt(cba_data, mrkt_data, major_data):
 
     # Find Additional Eligibilities
     combined_df_mrkt['Future_Eligible_Courses_List'] = combined_df_mrkt.apply(lambda row: find_additional_eligibilities(row['Eligible_Courses'], set(row['Eligible_Courses']), prerequisites_mrkt), axis=1)
-    combined_df_mrkt['Total_Future_Eligible_Courses'] = combined_df_mrkt['Future_Eligible_Courses_List'].apply(len)
+    # Step 1: Aggregate all eligible courses into a list for each student, flattening and deduplicating
+    eligible_courses_per_student = combined_df_mrkt.groupby('Student_ID')['Eligible_Courses'].agg(lambda x: list(set([item for sublist in x for item in sublist if isinstance(sublist, list)]))).reset_index()
+    # Step 2: Merge this aggregated list back into the combined_df_mrkt DataFrame
+    combined_df_mrkt = combined_df_mrkt.merge(eligible_courses_per_student.rename(columns={'Eligible_Courses': 'Eligible_Courses_List_All'}), 
+                                            on='Student_ID', 
+                                            how='left')
+    # Step 3: Filter out matching courses from 'Future_Eligible_Courses_List' and 'Future_Eligible_Courses_List_Special'
+    combined_df_mrkt['Future_Eligible_Courses_List'] = combined_df_mrkt.apply(
+    lambda row: [course for course in row['Future_Eligible_Courses_List'] if course not in row['Eligible_Courses_List_All']], axis=1)
+    combined_df_mrkt['Total_Future_Eligible_Courses'] = combined_df_mrkt['Future_Eligible_Courses_List'].apply(len)   
 
-    # Special Additional Eligibilities
-    combined_df_mrkt['Future_Eligible_Courses_List_Special'] = combined_df_mrkt.apply(lambda row: find_additional_eligibilities_special(row['Eligible_Courses'], set(row['Eligible_Courses']), row, prerequisites_special_mrkt, conditions_mrkt, is_eligible_special_mrkt_), axis=1)
+    combined_df_mrkt['Future_Eligible_Courses_List_Special'] = combined_df_mrkt.apply(
+    lambda row: find_additional_eligibilities_special(row['Eligible_Courses'], set(row['Eligible_Courses']), row, prerequisites_special_mrkt, conditions_mrkt, is_eligible_special_mrkt_), axis=1)
+    combined_df_mrkt['Future_Eligible_Courses_List_Special'] = combined_df_mrkt.apply(
+    lambda row: [course for course in row['Future_Eligible_Courses_List_Special'] if course not in row['Eligible_Courses_List_All']], axis=1)
     combined_df_mrkt['Total_Future_Eligible_Courses_Special'] = combined_df_mrkt['Future_Eligible_Courses_List_Special'].apply(len)
 
     # Combine Future Eligible Courses
@@ -1501,10 +1556,21 @@ def process_data_fin(cba_data, fin_data, major_data):
 
     # Find Additional Eligibilities
     combined_df_fin['Future_Eligible_Courses_List'] = combined_df_fin.apply(lambda row: find_additional_eligibilities(row['Eligible_Courses'], set(row['Eligible_Courses']), prerequisites_fin), axis=1)
-    combined_df_fin['Total_Future_Eligible_Courses'] = combined_df_fin['Future_Eligible_Courses_List'].apply(len)
+    # Step 1: Aggregate all eligible courses into a list for each student, flattening and deduplicating
+    eligible_courses_per_student = combined_df_fin.groupby('Student_ID')['Eligible_Courses'].agg(lambda x: list(set([item for sublist in x for item in sublist if isinstance(sublist, list)]))).reset_index()
+    # Step 2: Merge this aggregated list back into the combined_df_fin DataFrame
+    combined_df_fin = combined_df_fin.merge(eligible_courses_per_student.rename(columns={'Eligible_Courses': 'Eligible_Courses_List_All'}), 
+                                            on='Student_ID', 
+                                            how='left')
+    # Step 3: Filter out matching courses from 'Future_Eligible_Courses_List' and 'Future_Eligible_Courses_List_Special'
+    combined_df_fin['Future_Eligible_Courses_List'] = combined_df_fin.apply(
+    lambda row: [course for course in row['Future_Eligible_Courses_List'] if course not in row['Eligible_Courses_List_All']], axis=1)
+    combined_df_fin['Total_Future_Eligible_Courses'] = combined_df_fin['Future_Eligible_Courses_List'].apply(len)   
 
-    # Special Additional Eligibilities
-    combined_df_fin['Future_Eligible_Courses_List_Special'] = combined_df_fin.apply(lambda row: find_additional_eligibilities_special(row['Eligible_Courses'], set(row['Eligible_Courses']), row, prerequisites_special_fin, conditions_fin, is_eligible_special_fin_), axis=1)
+    combined_df_fin['Future_Eligible_Courses_List_Special'] = combined_df_fin.apply(
+    lambda row: find_additional_eligibilities_special(row['Eligible_Courses'], set(row['Eligible_Courses']), row, prerequisites_special_fin, conditions_fin, is_eligible_special_fin_), axis=1)
+    combined_df_fin['Future_Eligible_Courses_List_Special'] = combined_df_fin.apply(
+    lambda row: [course for course in row['Future_Eligible_Courses_List_Special'] if course not in row['Eligible_Courses_List_All']], axis=1)
     combined_df_fin['Total_Future_Eligible_Courses_Special'] = combined_df_fin['Future_Eligible_Courses_List_Special'].apply(len)
 
     # Combine Future Eligible Courses
@@ -1622,10 +1688,24 @@ def process_data_cs(cas_data, cs_data, major_data):
 
     # Find Additional Eligibilities
     combined_df_cs['Future_Eligible_Courses_List'] = combined_df_cs.apply(lambda row: find_additional_eligibilities(row['Eligible_Courses_CO'], set(row['Eligible_Courses_CO']), prerequisites_cs), axis=1)
-    combined_df_cs['Total_Future_Eligible_Courses'] = combined_df_cs['Future_Eligible_Courses_List'].apply(len)
+    # Step 1: Aggregate all eligible courses into a list for each student, flattening and deduplicating
+    eligible_courses_per_student = combined_df_cs.groupby('Student_ID')['Eligible_Courses_CO'].agg(lambda x: list(set([item for sublist in x for item in sublist if isinstance(sublist, list)]))).reset_index()
 
-    # Special Additional Eligibilities
-    combined_df_cs['Future_Eligible_Courses_List_Special'] = combined_df_cs.apply(lambda row: find_additional_eligibilities_special(row['Eligible_Courses_CO'], set(row['Eligible_Courses_CO']), row, prerequisites_special_cs, conditions_cs, is_eligible_special_cs_), axis=1)
+    # Step 2: Merge this aggregated list back into the combined_df_cs DataFrame
+    combined_df_cs = combined_df_cs.merge(eligible_courses_per_student.rename(columns={'Eligible_Courses_CO': 'Eligible_Courses_List_All'}), 
+                                            on='Student_ID', 
+                                            how='left')
+
+    # Step 3: Filter out matching courses from 'Future_Eligible_Courses_List' and 'Future_Eligible_Courses_List_Special'
+    combined_df_cs['Future_Eligible_Courses_List'] = combined_df_cs.apply(
+    lambda row: [course for course in row['Future_Eligible_Courses_List'] if course not in row['Eligible_Courses_List_All']], axis=1)
+    combined_df_cs['Total_Future_Eligible_Courses'] = combined_df_cs['Future_Eligible_Courses_List'].apply(len)
+    
+
+    combined_df_cs['Future_Eligible_Courses_List_Special'] = combined_df_cs.apply(
+    lambda row: find_additional_eligibilities_special(row['Eligible_Courses_CO'], set(row['Eligible_Courses_CO']), row, prerequisites_special_cs, conditions_cs, is_eligible_special_cs_), axis=1)
+    combined_df_cs['Future_Eligible_Courses_List_Special'] = combined_df_cs.apply(
+    lambda row: [course for course in row['Future_Eligible_Courses_List_Special'] if course not in row['Eligible_Courses_List_All']], axis=1)
     combined_df_cs['Total_Future_Eligible_Courses_Special'] = combined_df_cs['Future_Eligible_Courses_List_Special'].apply(len)
 
     # Combine Future Eligible Courses
@@ -1744,10 +1824,24 @@ def process_data_dmp(cas_data, dmp_data, major_data):
 
     # Find Additional Eligibilities
     combined_df_dmp['Future_Eligible_Courses_List'] = combined_df_dmp.apply(lambda row: find_additional_eligibilities(row['Eligible_Courses_CO'], set(row['Eligible_Courses_CO']), prerequisites_dmp), axis=1)
-    combined_df_dmp['Total_Future_Eligible_Courses'] = combined_df_dmp['Future_Eligible_Courses_List'].apply(len)
+    # Step 1: Aggregate all eligible courses into a list for each student, flattening and deduplicating
+    eligible_courses_per_student = combined_df_dmp.groupby('Student_ID')['Eligible_Courses_CO'].agg(lambda x: list(set([item for sublist in x for item in sublist if isinstance(sublist, list)]))).reset_index()
 
-    # Special Additional Eligibilities
-    combined_df_dmp['Future_Eligible_Courses_List_Special'] = combined_df_dmp.apply(lambda row: find_additional_eligibilities_special(row['Eligible_Courses_CO'], set(row['Eligible_Courses_CO']), row, prerequisites_special_dmp, conditions_dmp, is_eligible_special_dmp_), axis=1)
+    # Step 2: Merge this aggregated list back into the combined_df_dmp DataFrame
+    combined_df_dmp = combined_df_dmp.merge(eligible_courses_per_student.rename(columns={'Eligible_Courses_CO': 'Eligible_Courses_List_All'}), 
+                                            on='Student_ID', 
+                                            how='left')
+
+    # Step 3: Filter out matching courses from 'Future_Eligible_Courses_List' and 'Future_Eligible_Courses_List_Special'
+    combined_df_dmp['Future_Eligible_Courses_List'] = combined_df_dmp.apply(
+    lambda row: [course for course in row['Future_Eligible_Courses_List'] if course not in row['Eligible_Courses_List_All']], axis=1)
+    combined_df_dmp['Total_Future_Eligible_Courses'] = combined_df_dmp['Future_Eligible_Courses_List'].apply(len)
+    
+
+    combined_df_dmp['Future_Eligible_Courses_List_Special'] = combined_df_dmp.apply(
+    lambda row: find_additional_eligibilities_special(row['Eligible_Courses_CO'], set(row['Eligible_Courses_CO']), row, prerequisites_special_dmp, conditions_dmp, is_eligible_special_dmp_), axis=1)
+    combined_df_dmp['Future_Eligible_Courses_List_Special'] = combined_df_dmp.apply(
+    lambda row: [course for course in row['Future_Eligible_Courses_List_Special'] if course not in row['Eligible_Courses_List_All']], axis=1)
     combined_df_dmp['Total_Future_Eligible_Courses_Special'] = combined_df_dmp['Future_Eligible_Courses_List_Special'].apply(len)
 
     # Combine Future Eligible Courses
@@ -1867,10 +1961,24 @@ def process_data_eng_lin(cas_data, eng_lin_data, major_data):
 
     # Find Additional Eligibilities
     combined_df_eng_lin['Future_Eligible_Courses_List'] = combined_df_eng_lin.apply(lambda row: find_additional_eligibilities(row['Eligible_Courses_CO'], set(row['Eligible_Courses_CO']), prerequisites_eng_lin), axis=1)
-    combined_df_eng_lin['Total_Future_Eligible_Courses'] = combined_df_eng_lin['Future_Eligible_Courses_List'].apply(len)
+    # Step 1: Aggregate all eligible courses into a list for each student, flattening and deduplicating
+    eligible_courses_per_student = combined_df_eng_lin.groupby('Student_ID')['Eligible_Courses_CO'].agg(lambda x: list(set([item for sublist in x for item in sublist if isinstance(sublist, list)]))).reset_index()
 
-    # Special Additional Eligibilities
-    combined_df_eng_lin['Future_Eligible_Courses_List_Special'] = combined_df_eng_lin.apply(lambda row: find_additional_eligibilities_special(row['Eligible_Courses_CO'], set(row['Eligible_Courses_CO']), row, prerequisites_special_eng_lin, conditions_eng_lin, is_eligible_special_eng_lin_), axis=1)
+    # Step 2: Merge this aggregated list back into the combined_df_eng_lin DataFrame
+    combined_df_eng_lin = combined_df_eng_lin.merge(eligible_courses_per_student.rename(columns={'Eligible_Courses_CO': 'Eligible_Courses_List_All'}), 
+                                            on='Student_ID', 
+                                            how='left')
+
+    # Step 3: Filter out matching courses from 'Future_Eligible_Courses_List' and 'Future_Eligible_Courses_List_Special'
+    combined_df_eng_lin['Future_Eligible_Courses_List'] = combined_df_eng_lin.apply(
+    lambda row: [course for course in row['Future_Eligible_Courses_List'] if course not in row['Eligible_Courses_List_All']], axis=1)
+    combined_df_eng_lin['Total_Future_Eligible_Courses'] = combined_df_eng_lin['Future_Eligible_Courses_List'].apply(len)
+    
+
+    combined_df_eng_lin['Future_Eligible_Courses_List_Special'] = combined_df_eng_lin.apply(
+    lambda row: find_additional_eligibilities_special(row['Eligible_Courses_CO'], set(row['Eligible_Courses_CO']), row, prerequisites_special_eng_lin, conditions_eng_lin, is_eligible_special_eng_lin_), axis=1)
+    combined_df_eng_lin['Future_Eligible_Courses_List_Special'] = combined_df_eng_lin.apply(
+    lambda row: [course for course in row['Future_Eligible_Courses_List_Special'] if course not in row['Eligible_Courses_List_All']], axis=1)
     combined_df_eng_lin['Total_Future_Eligible_Courses_Special'] = combined_df_eng_lin['Future_Eligible_Courses_List_Special'].apply(len)
 
     # Combine Future Eligible Courses
@@ -1988,10 +2096,24 @@ def process_data_eng_edu(cas_data, eng_edu_data, major_data):
     
     # Find Additional Eligibilities
     combined_df_eng_edu['Future_Eligible_Courses_List'] = combined_df_eng_edu.apply(lambda row: find_additional_eligibilities(row['Eligible_Courses_CO'], set(row['Eligible_Courses_CO']), prerequisites_eng_edu), axis=1)
-    combined_df_eng_edu['Total_Future_Eligible_Courses'] = combined_df_eng_edu['Future_Eligible_Courses_List'].apply(len)
+    # Step 1: Aggregate all eligible courses into a list for each student, flattening and deduplicating
+    eligible_courses_per_student = combined_df_eng_edu.groupby('Student_ID')['Eligible_Courses_CO'].agg(lambda x: list(set([item for sublist in x for item in sublist if isinstance(sublist, list)]))).reset_index()
 
-    # Special Additional Eligibilities
-    combined_df_eng_edu['Future_Eligible_Courses_List_Special'] = combined_df_eng_edu.apply(lambda row: find_additional_eligibilities_special(row['Eligible_Courses_CO'], set(row['Eligible_Courses_CO']), row, prerequisites_special_eng_edu, conditions_eng_edu, is_eligible_special_eng_edu_), axis=1)
+    # Step 2: Merge this aggregated list back into the combined_df_eng_edu DataFrame
+    combined_df_eng_edu = combined_df_eng_edu.merge(eligible_courses_per_student.rename(columns={'Eligible_Courses_CO': 'Eligible_Courses_List_All'}), 
+                                            on='Student_ID', 
+                                            how='left')
+
+    # Step 3: Filter out matching courses from 'Future_Eligible_Courses_List' and 'Future_Eligible_Courses_List_Special'
+    combined_df_eng_edu['Future_Eligible_Courses_List'] = combined_df_eng_edu.apply(
+    lambda row: [course for course in row['Future_Eligible_Courses_List'] if course not in row['Eligible_Courses_List_All']], axis=1)
+    combined_df_eng_edu['Total_Future_Eligible_Courses'] = combined_df_eng_edu['Future_Eligible_Courses_List'].apply(len)
+    
+
+    combined_df_eng_edu['Future_Eligible_Courses_List_Special'] = combined_df_eng_edu.apply(
+    lambda row: find_additional_eligibilities_special(row['Eligible_Courses_CO'], set(row['Eligible_Courses_CO']), row, prerequisites_special_eng_edu, conditions_eng_edu, is_eligible_special_eng_edu_), axis=1)
+    combined_df_eng_edu['Future_Eligible_Courses_List_Special'] = combined_df_eng_edu.apply(
+    lambda row: [course for course in row['Future_Eligible_Courses_List_Special'] if course not in row['Eligible_Courses_List_All']], axis=1)
     combined_df_eng_edu['Total_Future_Eligible_Courses_Special'] = combined_df_eng_edu['Future_Eligible_Courses_List_Special'].apply(len)
 
     # Combine Future Eligible Courses
@@ -2109,10 +2231,24 @@ def process_data_eng_lit(cas_data, eng_lit_data, major_data):
 
     # Find Additional Eligibilities
     combined_df_eng_lit['Future_Eligible_Courses_List'] = combined_df_eng_lit.apply(lambda row: find_additional_eligibilities(row['Eligible_Courses_CO'], set(row['Eligible_Courses_CO']), prerequisites_eng_lit), axis=1)
-    combined_df_eng_lit['Total_Future_Eligible_Courses'] = combined_df_eng_lit['Future_Eligible_Courses_List'].apply(len)
+    # Step 1: Aggregate all eligible courses into a list for each student, flattening and deduplicating
+    eligible_courses_per_student = combined_df_eng_lit.groupby('Student_ID')['Eligible_Courses_CO'].agg(lambda x: list(set([item for sublist in x for item in sublist if isinstance(sublist, list)]))).reset_index()
 
-    # Special Additional Eligibilities
-    combined_df_eng_lit['Future_Eligible_Courses_List_Special'] = combined_df_eng_lit.apply(lambda row: find_additional_eligibilities_special(row['Eligible_Courses_CO'], set(row['Eligible_Courses_CO']), row, prerequisites_special_eng_lit, conditions_eng_lit, is_eligible_special_eng_lit_), axis=1)
+    # Step 2: Merge this aggregated list back into the combined_df_eng_lit DataFrame
+    combined_df_eng_lit = combined_df_eng_lit.merge(eligible_courses_per_student.rename(columns={'Eligible_Courses_CO': 'Eligible_Courses_List_All'}), 
+                                            on='Student_ID', 
+                                            how='left')
+
+    # Step 3: Filter out matching courses from 'Future_Eligible_Courses_List' and 'Future_Eligible_Courses_List_Special'
+    combined_df_eng_lit['Future_Eligible_Courses_List'] = combined_df_eng_lit.apply(
+    lambda row: [course for course in row['Future_Eligible_Courses_List'] if course not in row['Eligible_Courses_List_All']], axis=1)
+    combined_df_eng_lit['Total_Future_Eligible_Courses'] = combined_df_eng_lit['Future_Eligible_Courses_List'].apply(len)
+    
+
+    combined_df_eng_lit['Future_Eligible_Courses_List_Special'] = combined_df_eng_lit.apply(
+    lambda row: find_additional_eligibilities_special(row['Eligible_Courses_CO'], set(row['Eligible_Courses_CO']), row, prerequisites_special_eng_lit, conditions_eng_lit, is_eligible_special_eng_lit_), axis=1)
+    combined_df_eng_lit['Future_Eligible_Courses_List_Special'] = combined_df_eng_lit.apply(
+    lambda row: [course for course in row['Future_Eligible_Courses_List_Special'] if course not in row['Eligible_Courses_List_All']], axis=1)
     combined_df_eng_lit['Total_Future_Eligible_Courses_Special'] = combined_df_eng_lit['Future_Eligible_Courses_List_Special'].apply(len)
 
     # Combine Future Eligible Courses
@@ -2230,10 +2366,24 @@ def process_data_pr(cas_data, pr_data, major_data):
 
     # Find Additional Eligibilities
     combined_df_pr['Future_Eligible_Courses_List'] = combined_df_pr.apply(lambda row: find_additional_eligibilities(row['Eligible_Courses_CO'], set(row['Eligible_Courses_CO']), prerequisites_pr), axis=1)
-    combined_df_pr['Total_Future_Eligible_Courses'] = combined_df_pr['Future_Eligible_Courses_List'].apply(len)
+    # Step 1: Aggregate all eligible courses into a list for each student, flattening and deduplicating
+    eligible_courses_per_student = combined_df_pr.groupby('Student_ID')['Eligible_Courses_CO'].agg(lambda x: list(set([item for sublist in x for item in sublist if isinstance(sublist, list)]))).reset_index()
 
-    # Special Additional Eligibilities
-    combined_df_pr['Future_Eligible_Courses_List_Special'] = combined_df_pr.apply(lambda row: find_additional_eligibilities_special(row['Eligible_Courses_CO'], set(row['Eligible_Courses_CO']), row, prerequisites_special_pr, conditions_pr, is_eligible_special_pr_), axis=1)
+    # Step 2: Merge this aggregated list back into the combined_df_pr DataFrame
+    combined_df_pr = combined_df_pr.merge(eligible_courses_per_student.rename(columns={'Eligible_Courses_CO': 'Eligible_Courses_List_All'}), 
+                                            on='Student_ID', 
+                                            how='left')
+
+    # Step 3: Filter out matching courses from 'Future_Eligible_Courses_List' and 'Future_Eligible_Courses_List_Special'
+    combined_df_pr['Future_Eligible_Courses_List'] = combined_df_pr.apply(
+    lambda row: [course for course in row['Future_Eligible_Courses_List'] if course not in row['Eligible_Courses_List_All']], axis=1)
+    combined_df_pr['Total_Future_Eligible_Courses'] = combined_df_pr['Future_Eligible_Courses_List'].apply(len)
+    
+
+    combined_df_pr['Future_Eligible_Courses_List_Special'] = combined_df_pr.apply(
+    lambda row: find_additional_eligibilities_special(row['Eligible_Courses_CO'], set(row['Eligible_Courses_CO']), row, prerequisites_special_pr, conditions_pr, is_eligible_special_pr_), axis=1)
+    combined_df_pr['Future_Eligible_Courses_List_Special'] = combined_df_pr.apply(
+    lambda row: [course for course in row['Future_Eligible_Courses_List_Special'] if course not in row['Eligible_Courses_List_All']], axis=1)
     combined_df_pr['Total_Future_Eligible_Courses_Special'] = combined_df_pr['Future_Eligible_Courses_List_Special'].apply(len)
 
     # Combine Future Eligible Courses
@@ -2351,10 +2501,24 @@ def process_data_vc(cas_data, vc_data, major_data):
 
     # Find Additional Eligibilities
     combined_df_vc['Future_Eligible_Courses_List'] = combined_df_vc.apply(lambda row: find_additional_eligibilities(row['Eligible_Courses_CO'], set(row['Eligible_Courses_CO']), prerequisites_vc), axis=1)
-    combined_df_vc['Total_Future_Eligible_Courses'] = combined_df_vc['Future_Eligible_Courses_List'].apply(len)
+    # Step 1: Aggregate all eligible courses into a list for each student, flattening and deduplicating
+    eligible_courses_per_student = combined_df_vc.groupby('Student_ID')['Eligible_Courses_CO'].agg(lambda x: list(set([item for sublist in x for item in sublist if isinstance(sublist, list)]))).reset_index()
 
-    # Special Additional Eligibilities
-    combined_df_vc['Future_Eligible_Courses_List_Special'] = combined_df_vc.apply(lambda row: find_additional_eligibilities_special(row['Eligible_Courses_CO'], set(row['Eligible_Courses_CO']), row, prerequisites_special_vc, conditions_vc, is_eligible_special_vc_), axis=1)
+    # Step 2: Merge this aggregated list back into the combined_df_vc DataFrame
+    combined_df_vc = combined_df_vc.merge(eligible_courses_per_student.rename(columns={'Eligible_Courses_CO': 'Eligible_Courses_List_All'}), 
+                                            on='Student_ID', 
+                                            how='left')
+
+    # Step 3: Filter out matching courses from 'Future_Eligible_Courses_List' and 'Future_Eligible_Courses_List_Special'
+    combined_df_vc['Future_Eligible_Courses_List'] = combined_df_vc.apply(
+    lambda row: [course for course in row['Future_Eligible_Courses_List'] if course not in row['Eligible_Courses_List_All']], axis=1)
+    combined_df_vc['Total_Future_Eligible_Courses'] = combined_df_vc['Future_Eligible_Courses_List'].apply(len)
+    
+
+    combined_df_vc['Future_Eligible_Courses_List_Special'] = combined_df_vc.apply(
+    lambda row: find_additional_eligibilities_special(row['Eligible_Courses_CO'], set(row['Eligible_Courses_CO']), row, prerequisites_special_vc, conditions_vc, is_eligible_special_vc_), axis=1)
+    combined_df_vc['Future_Eligible_Courses_List_Special'] = combined_df_vc.apply(
+    lambda row: [course for course in row['Future_Eligible_Courses_List_Special'] if course not in row['Eligible_Courses_List_All']], axis=1)
     combined_df_vc['Total_Future_Eligible_Courses_Special'] = combined_df_vc['Future_Eligible_Courses_List_Special'].apply(len)
 
     # Combine Future Eligible Courses
@@ -2472,10 +2636,24 @@ def process_data_mgmt(cea_data, mgmt_data, major_data):
 
     # Find Additional Eligibilities
     combined_df_mgmt['Future_Eligible_Courses_List'] = combined_df_mgmt.apply(lambda row: find_additional_eligibilities(row['Eligible_Courses_CO'], set(row['Eligible_Courses_CO']), prerequisites_mgmt), axis=1)
-    combined_df_mgmt['Total_Future_Eligible_Courses'] = combined_df_mgmt['Future_Eligible_Courses_List'].apply(len)
+    # Step 1: Aggregate all eligible courses into a list for each student, flattening and deduplicating
+    eligible_courses_per_student = combined_df_mgmt.groupby('Student_ID')['Eligible_Courses_CO'].agg(lambda x: list(set([item for sublist in x for item in sublist if isinstance(sublist, list)]))).reset_index()
 
-    # Special Additional Eligibilities
-    combined_df_mgmt['Future_Eligible_Courses_List_Special'] = combined_df_mgmt.apply(lambda row: find_additional_eligibilities_special(row['Eligible_Courses_CO'], set(row['Eligible_Courses_CO']), row, prerequisites_special_mgmt, conditions_mgmt, is_eligible_special_mgmt_), axis=1)
+    # Step 2: Merge this aggregated list back into the combined_df_mgmt DataFrame
+    combined_df_mgmt = combined_df_mgmt.merge(eligible_courses_per_student.rename(columns={'Eligible_Courses_CO': 'Eligible_Courses_List_All'}), 
+                                            on='Student_ID', 
+                                            how='left')
+
+    # Step 3: Filter out matching courses from 'Future_Eligible_Courses_List' and 'Future_Eligible_Courses_List_Special'
+    combined_df_mgmt['Future_Eligible_Courses_List'] = combined_df_mgmt.apply(
+    lambda row: [course for course in row['Future_Eligible_Courses_List'] if course not in row['Eligible_Courses_List_All']], axis=1)
+    combined_df_mgmt['Total_Future_Eligible_Courses'] = combined_df_mgmt['Future_Eligible_Courses_List'].apply(len)
+    
+
+    combined_df_mgmt['Future_Eligible_Courses_List_Special'] = combined_df_mgmt.apply(
+    lambda row: find_additional_eligibilities_special(row['Eligible_Courses_CO'], set(row['Eligible_Courses_CO']), row, prerequisites_special_mgmt, conditions_mgmt, is_eligible_special_mgmt_), axis=1)
+    combined_df_mgmt['Future_Eligible_Courses_List_Special'] = combined_df_mgmt.apply(
+    lambda row: [course for course in row['Future_Eligible_Courses_List_Special'] if course not in row['Eligible_Courses_List_All']], axis=1)
     combined_df_mgmt['Total_Future_Eligible_Courses_Special'] = combined_df_mgmt['Future_Eligible_Courses_List_Special'].apply(len)
 
     # Combine Future Eligible Courses
@@ -2593,10 +2771,24 @@ def process_data_elec(cea_data, elec_data, major_data):
 
     # Find Additional Eligibilities
     combined_df_elec['Future_Eligible_Courses_List'] = combined_df_elec.apply(lambda row: find_additional_eligibilities(row['Eligible_Courses_CO'], set(row['Eligible_Courses_CO']), prerequisites_elec), axis=1)
-    combined_df_elec['Total_Future_Eligible_Courses'] = combined_df_elec['Future_Eligible_Courses_List'].apply(len)
+    # Step 1: Aggregate all eligible courses into a list for each student, flattening and deduplicating
+    eligible_courses_per_student = combined_df_elec.groupby('Student_ID')['Eligible_Courses_CO'].agg(lambda x: list(set([item for sublist in x for item in sublist if isinstance(sublist, list)]))).reset_index()
 
-    # Special Additional Eligibilities
-    combined_df_elec['Future_Eligible_Courses_List_Special'] = combined_df_elec.apply(lambda row: find_additional_eligibilities_special(row['Eligible_Courses_CO'], set(row['Eligible_Courses_CO']), row, prerequisites_special_elec, conditions_elec, is_eligible_special_elec_), axis=1)
+    # Step 2: Merge this aggregated list back into the combined_df_elec DataFrame
+    combined_df_elec = combined_df_elec.merge(eligible_courses_per_student.rename(columns={'Eligible_Courses_CO': 'Eligible_Courses_List_All'}), 
+                                            on='Student_ID', 
+                                            how='left')
+
+    # Step 3: Filter out matching courses from 'Future_Eligible_Courses_List' and 'Future_Eligible_Courses_List_Special'
+    combined_df_elec['Future_Eligible_Courses_List'] = combined_df_elec.apply(
+    lambda row: [course for course in row['Future_Eligible_Courses_List'] if course not in row['Eligible_Courses_List_All']], axis=1)
+    combined_df_elec['Total_Future_Eligible_Courses'] = combined_df_elec['Future_Eligible_Courses_List'].apply(len)
+    
+
+    combined_df_elec['Future_Eligible_Courses_List_Special'] = combined_df_elec.apply(
+    lambda row: find_additional_eligibilities_special(row['Eligible_Courses_CO'], set(row['Eligible_Courses_CO']), row, prerequisites_special_elec, conditions_elec, is_eligible_special_elec_), axis=1)
+    combined_df_elec['Future_Eligible_Courses_List_Special'] = combined_df_elec.apply(
+    lambda row: [course for course in row['Future_Eligible_Courses_List_Special'] if course not in row['Eligible_Courses_List_All']], axis=1)
     combined_df_elec['Total_Future_Eligible_Courses_Special'] = combined_df_elec['Future_Eligible_Courses_List_Special'].apply(len)
 
     # Combine Future Eligible Courses
@@ -2714,10 +2906,24 @@ def process_data_comp(cea_data, comp_data, major_data):
 
     # Find Additional Eligibilities
     combined_df_comp['Future_Eligible_Courses_List'] = combined_df_comp.apply(lambda row: find_additional_eligibilities(row['Eligible_Courses_CO'], set(row['Eligible_Courses_CO']), prerequisites_comp), axis=1)
-    combined_df_comp['Total_Future_Eligible_Courses'] = combined_df_comp['Future_Eligible_Courses_List'].apply(len)
+    # Step 1: Aggregate all eligible courses into a list for each student, flattening and deduplicating
+    eligible_courses_per_student = combined_df_comp.groupby('Student_ID')['Eligible_Courses_CO'].agg(lambda x: list(set([item for sublist in x for item in sublist if isinstance(sublist, list)]))).reset_index()
 
-    # Special Additional Eligibilities
-    combined_df_comp['Future_Eligible_Courses_List_Special'] = combined_df_comp.apply(lambda row: find_additional_eligibilities_special(row['Eligible_Courses_CO'], set(row['Eligible_Courses_CO']), row, prerequisites_special_comp, conditions_comp, is_eligible_special_comp_), axis=1)
+    # Step 2: Merge this aggregated list back into the combined_df_comp DataFrame
+    combined_df_comp = combined_df_comp.merge(eligible_courses_per_student.rename(columns={'Eligible_Courses_CO': 'Eligible_Courses_List_All'}), 
+                                            on='Student_ID', 
+                                            how='left')
+
+    # Step 3: Filter out matching courses from 'Future_Eligible_Courses_List' and 'Future_Eligible_Courses_List_Special'
+    combined_df_comp['Future_Eligible_Courses_List'] = combined_df_comp.apply(
+    lambda row: [course for course in row['Future_Eligible_Courses_List'] if course not in row['Eligible_Courses_List_All']], axis=1)
+    combined_df_comp['Total_Future_Eligible_Courses'] = combined_df_comp['Future_Eligible_Courses_List'].apply(len)
+    
+
+    combined_df_comp['Future_Eligible_Courses_List_Special'] = combined_df_comp.apply(
+    lambda row: find_additional_eligibilities_special(row['Eligible_Courses_CO'], set(row['Eligible_Courses_CO']), row, prerequisites_special_comp, conditions_comp, is_eligible_special_comp_), axis=1)
+    combined_df_comp['Future_Eligible_Courses_List_Special'] = combined_df_comp.apply(
+    lambda row: [course for course in row['Future_Eligible_Courses_List_Special'] if course not in row['Eligible_Courses_List_All']], axis=1)
     combined_df_comp['Total_Future_Eligible_Courses_Special'] = combined_df_comp['Future_Eligible_Courses_List_Special'].apply(len)
 
     # Combine Future Eligible Courses
